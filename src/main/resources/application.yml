@@ -1,0 +1,22 @@
+spring:
+  profiles.include:
+    - db
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.ebtudytemplates3week.domain
+
