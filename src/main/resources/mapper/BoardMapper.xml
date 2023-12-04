@@ -2,9 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ebstudytemplates3week.mapper.BoardMapper">
-    <select id="getWriter">
-        SELECT writer
+
+    <select id="getTotalCount" resultType="int">
+        SELECT count(*)
         FROM board
-        WHERE id = #{id}
+        WHERE registration_date BETWEEN #{startDate} AND #{endDate}
+        <if test="category != 0">
+            AND category_id = #{category}
+        </if>
+        <if test="searchText != null">
+            AND (title LIKE CONCAT('%', #{searchText}, '%')
+            OR writer LIKE CONCAT('%', #{searchText}, '%')
+            OR content LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+    </select>
+
+    <select id="getBoardList" >
+        SELECT board.*, category.name AS category_name
+        FROM board
+        JOIN category ON board.category_id = category.id
+        WHERE registration_date BETWEEN #{startDate} AND #{endDate}
+        <if test="category != 0">
+            AND category_id = #{category}
+        </if>
+        <if test="searchText != null">
+            AND (title LIKE CONCAT('%', #{searchText}, '%')
+                OR writer LIKE CONCAT('%', #{searchText}, '%')
+                OR content LIKE CONCAT('%', #{searchText}, '%'))
+        </if>
+        ORDER BY registration_date DESC
+        LIMIT #{startNum}, #{limit}
     </select>
 </mapper>

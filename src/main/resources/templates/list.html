@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+<h2>자유게시판 - 목록</h2>
+<div class="searchGroup">
+    <form action method="get">
+        <span>등록일</span>
+        <label>
+            <input type="date" name="startDate" th:value="${#strings.substring(pc.paging.startDate,0,10)}">
+        </label>
+        -
+        <label>
+            <input type="date" name="endDate" th:value="${#strings.substring(pc.paging.endDate,0,10)}">
+        </label>
+        <label>
+            <select name="category">
+                <option value="0" selected>전체 카테고리</option>
+                <option th:each="category : ${categoryList}" th:text="${category.getName()}" th:value="${category.getId()}">
+                </option>
+            </select>
+        </label>
+        <label>
+            <input type="text" name="searchText" placeholder="검색어를 입력해주세요. (제목+작성자+내용)">
+        </label>
+        <input type="submit" value="검색"/>
+    </form>
+</div>
+
+<div>
+    <p th:text="'총 ' + ${pc.getTotalCount()} + '개'"></p>
+</div>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <td>카테고리</td>
+                <td>첨부</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>조회수</td>
+                <td>등록일시</td>
+                <td>수정일시</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="board : ${boardList}">
+                <th th:text="${board.categoryName}"></th>
+                <td></td>
+                <td><a th:href="@{/view(id=${board.id},pageNum=${pc.paging.getPageNum()})}"
+                       th:text="${ #strings.length(board.title) > 80 ? #strings.concat(#strings.substring(board.title,0,80), '...') : board.title}"></a>
+                </td>
+                <td th:text="${board.writer}"></td>
+                <td th:text="${board.viewCount}"></td>
+                <td th:text="${#strings.substring(board.getRegistrationDate(),0,16)}"></td>
+                <td th:text="${board.getModificationDate() != null ? #strings.substring(board.getModificationDate(),0,16) : '-'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <nav>
+        <a th:href="@{'list?pageNum=1'}">&laquo; </a>
+
+        <a th:if="${pc.prev}" th:href="@{'list?pageNum='+${pc.paging.getPageNum()-1}}">Prev </a>
+        <a th:unless="${pc.prev}" href="javascript:void(0)">Prev </a>
+
+        <span th:each="i : ${#numbers.sequence(pc.getBeginPage(), pc.getEndPage())}">
+            <span th:if="${i == pc.paging.getPageNum()}" href="javascript:void(0)" th:text="${i}"></span>
+            <a th:unless="${i == pc.paging.getPageNum()}" th:href="@{'list?pageNum='+${i}}">
+                <span th:text="${i}"></span>
+            </a>
+        </span>
+
+        <a th:if="${pc.next}" th:href="@{'list?pageNum='+${pc.paging.getPageNum()+1}}">Next </a>
+        <a th:unless="${pc.next}" href="javascript:void(0)">Next </a>
+
+        <a th:href="@{'list?pageNum='+${pc.lastPage}}">&raquo; </a>
+    </nav>
+</div>
+<div class="list_button">
+    <a th:href="@{'write?pageNum='+${pc.paging.getPageNum()}}">등록 </a>
+
+</div>
+</body>
+
+</html>

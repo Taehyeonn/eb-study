@@ -9,14 +9,14 @@ spring:
       enabled: false
 
   thymeleaf:
-    cache: false
     enabled: true
-    prefix: classpath:/templates/
-    suffix: .html
+    cache: false # cache 사용 /사용 시 컴파일한 파일만 사용 (개발 시 미사용)
+    prefix: classpath:/templates/ # 템플릿 위치 / View 파일 위치
+    suffix: .html # View 파일 기본 확장자 / Controller에서 확장자를 입력하지 않아도 된다.
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
-    map-underscore-to-camel-case: true
+    map-underscore-to-camel-case: true # DB - MODEL 간의 네이밍 형식 변환
   type-aliases-package: com.ebtudytemplates3week.domain
 
