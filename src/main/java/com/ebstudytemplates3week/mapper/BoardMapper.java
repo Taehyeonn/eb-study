@@ -17,4 +17,8 @@ public interface BoardMapper {
 
     // 게시글 리스트 출력
     List<Board> getBoardList(Page page);
+
+    // 게시글 세부 조회
+    List<Board> getBoardById(String id);
+
 }

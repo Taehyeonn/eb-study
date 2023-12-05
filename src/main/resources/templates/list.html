@@ -50,7 +50,7 @@
             <tr th:each="board : ${boardList}">
                 <th th:text="${board.categoryName}"></th>
                 <td></td>
-                <td><a th:href="@{/view(id=${board.id},pageNum=${pc.paging.getPageNum()})}"
+                <td><a th:href="@{/board/free/view(id=${board.id},pageNum=${pc.paging.getPageNum()})}"
                        th:text="${ #strings.length(board.title) > 80 ? #strings.concat(#strings.substring(board.title,0,80), '...') : board.title}"></a>
                 </td>
                 <td th:text="${board.writer}"></td>
@@ -83,8 +83,6 @@
 </div>
 <div class="list_button">
     <a th:href="@{'write?pageNum='+${pc.paging.getPageNum()}}">등록 </a>
-
 </div>
 </body>
-
 </html>

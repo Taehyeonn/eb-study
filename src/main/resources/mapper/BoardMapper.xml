@@ -33,4 +33,11 @@
         ORDER BY registration_date DESC
         LIMIT #{startNum}, #{limit}
     </select>
+
+    <select id="getBoardById">
+        SELECT board.*, category.name AS category_name
+        FROM board
+        JOIN category ON board.category_id = category.id
+        WHERE board.id = #{id}
+    </select>
 </mapper>

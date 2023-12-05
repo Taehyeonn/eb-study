@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+</head>
+<body>
+<h2>자유게시판 - 보기</h2>
+<div>
+    <span th:text="${board[0].writer}"></span>
+    <span th:text="${#strings.substring(board[0].registrationDate,0,16)}"></span>
+    <span th:text="${board[0].modificationDate != null ? #strings.substring(board[0].modificationDate,0,16) : '-'}"></span>
+</div>
+<hr>
+<div>
+    <span th:text="${board[0].categoryName}"></span>
+    <span th:text="${board[0].title}"></span>
+    <span th:text="${board[0].viewCount}"></span>
+</div>
+<hr>
+<div>
+    <p th:text="${board[0].content}"></p>
+</div>
+<hr>
+<div>
+    <p>첨부파일</p>
+</div>
+<div>
+    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pageNum})}'|">목록</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/edit(id=${id}, pageNum=${pageNum})}'|">수정</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id})}'|">삭제</button>
+</div>
+</body>
+</html>
