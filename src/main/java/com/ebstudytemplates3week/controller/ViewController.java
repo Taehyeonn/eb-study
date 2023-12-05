@@ -26,6 +26,8 @@ public class ViewController {
             @RequestParam("id") String id,
             @RequestParam("pageNum") String pageNum) {
 
+        viewService.increaseViewCount(id);
+
         model.addAttribute("board", viewService.getBoardById(id));
         model.addAttribute("id", id);
         model.addAttribute("pageNum", pageNum);

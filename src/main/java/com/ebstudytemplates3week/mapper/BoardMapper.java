@@ -21,4 +21,7 @@ public interface BoardMapper {
     // 게시글 세부 조회
     List<Board> getBoardById(String id);
 
+    //조회수 증가
+    void increaseViewCount(String id);
+
 }

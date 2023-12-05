@@ -17,7 +17,13 @@ import java.util.List;
 public class ViewService {
     private final BoardMapper boardMapper;
 
+    //게시글 조회
     public List<Board> getBoardById(String id) {
         return boardMapper.getBoardById(id);
+    }
+
+    //조회수 증가
+    public void increaseViewCount(String id) {
+        boardMapper.increaseViewCount(id);
     }
 }

@@ -40,4 +40,11 @@
         JOIN category ON board.category_id = category.id
         WHERE board.id = #{id}
     </select>
+
+    <update id="increaseViewCount">
+        UPDATE board
+        SET view_count = view_count + 1
+        WHERE board.id = #{id}
+    </update>
+
 </mapper>
