@@ -3,6 +3,23 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
+    <script>
+
+        /**
+         * 댓글 등록 버튼 클릭시 내용이 없으면 false 반환
+         * @returns {boolean}
+         */
+        function checkForm() {
+            let content = document.getElementById("content").value.trim();
+
+            if (content === "" ){
+                alert("댓글을 입력해주세요");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <h2>자유게시판 - 보기</h2>
@@ -25,10 +42,26 @@
 <div>
     <p>첨부파일</p>
 </div>
+<div style="background-color: beige">
+    <div th:if="${commentList.isEmpty()}">
+        <p>댓글이 없습니다.</p>
+    </div>
+    <div th:unless="${commentList.isEmpty()}" th:each="comment:${commentList}">
+        <p th:text="${#strings.substring(comment.registrationDate,0,16)}"></p>
+        <span th:text="${comment.content}"></span>
+        <hr>
+    </div>
+    <div>
+        <form action method="post" onsubmit="return checkForm()">
+            <label><textarea rows="3" cols="112" name="content"></textarea></label>
+            <input type="submit" value="등록">
+        </form>
+    </div>
+</div>
 <div>
     <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pageNum})}'|">목록</button>
     <button type="button" th:onclick="|location.href='@{/board/free/edit(id=${id}, pageNum=${pageNum})}'|">수정</button>
-    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id})}'|">삭제</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id}, pageNum=${pageNum})}'|">삭제</button>
 </div>
 </body>
 </html>
