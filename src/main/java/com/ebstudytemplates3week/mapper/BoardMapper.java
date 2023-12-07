@@ -24,4 +24,7 @@ public interface BoardMapper {
     //조회수 증가
     void increaseViewCount(String id);
 
+    //게시글 작성
+    void writeBoard(Board board);
+
 }
