@@ -20,11 +20,13 @@ public class WriteController {
 
     private final WriteService writeService;
 
-    @Autowired //생성자를 통한 의존성 주입
+    @Autowired // 생성자를 통한 의존성 주입
     public WriteController(WriteService writeService) {
         this.writeService = writeService;
     }
 
+
+    // write 페이지에 필요한 카테고리, pageNum
     @GetMapping
     public String getWriteInfo(
             @RequestParam("pageNum") String pageNum,
@@ -37,8 +39,9 @@ public class WriteController {
         return "write";
     }
 
+    // 유효성 검사 로직 성공시 글 등록
     @PostMapping
-    public String postBoard(
+    public String writeBoard(
             @ModelAttribute("board") Board board,
             @RequestParam("confirmPassword") String confirmPassword){
 
@@ -64,3 +67,6 @@ public class WriteController {
         return "redirect:/board/free/list";
     }
 }
+//TODO: 컨트롤러를 페이지 단위로 나누는 게 맞는지?
+//TODO: 서버 유효성 검사 @Valid ?
+//TODO: vue 인텔리제이 통합? VSC 따로?
