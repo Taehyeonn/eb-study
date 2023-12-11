@@ -10,11 +10,11 @@
     <form action method="get">
         <span>등록일</span>
         <label>
-            <input type="date" name="startDate" th:value="${#strings.substring(pc.paging.startDate,0,10)}">
+            <input type="date" name="startDate" th:value="${#strings.substring(searchFilter.getStartDate(),0,10)}">
         </label>
         -
         <label>
-            <input type="date" name="endDate" th:value="${#strings.substring(pc.paging.endDate,0,10)}">
+            <input type="date" name="endDate" th:value="${#strings.substring(searchFilter.getEndDate(),0,10)}">
         </label>
         <label>
             <select name="category">
@@ -24,14 +24,14 @@
             </select>
         </label>
         <label>
-            <input type="text" name="searchText" placeholder="검색어를 입력해주세요. (제목+작성자+내용)">
+            <input type="text" name="searchText" placeholder="검색어를 입력해주세요. (제목+작성자+내용)" th:value="${searchFilter.getSearchText()}">
         </label>
         <input type="submit" value="검색"/>
     </form>
 </div>
 
 <div>
-    <p th:text="'총 ' + ${pc.getTotalCount()} + '개'"></p>
+    <p th:text="'총 ' + ${pagination.getTotalCount()} + '개'"></p>
 </div>
 <div>
     <table>
@@ -50,7 +50,7 @@
             <tr th:each="board : ${boardList}">
                 <th th:text="${board.categoryName}"></th>
                 <td></td>
-                <td><a th:href="@{/board/free/view(id=${board.id},pageNum=${pc.paging.getPageNum()})}"
+                <td><a th:href="@{/board/free/view(id=${board.id},pageNum=${pagination.getPageNum()})}"
                        th:text="${ #strings.length(board.title) > 80 ? #strings.concat(#strings.substring(board.title,0,80), '...') : board.title}"></a>
                 </td>
                 <td th:text="${board.writer}"></td>
@@ -63,26 +63,37 @@
 </div>
 <div>
     <nav>
+
+<!--        첫번째 페이지로-->
         <a th:href="@{'list?pageNum=1'}">&laquo; </a>
 
-        <a th:if="${pc.prev}" th:href="@{'list?pageNum='+${pc.paging.getPageNum()-1}}">Prev </a>
-        <a th:unless="${pc.prev}" href="javascript:void(0)">Prev </a>
+<!--        이전 페이지-->
+        <a th:if="${pagination.prev}" th:href="@{'list?pageNum='+${pagination.getPageNum()-1}}">Prev </a>
+        <a th:unless="${pagination.prev}" href="javascript:void(0)">Prev </a>
 
-        <span th:each="i : ${#numbers.sequence(pc.getBeginPage(), pc.getEndPage())}">
-            <span th:if="${i == pc.paging.getPageNum()}" href="javascript:void(0)" th:text="${i}"></span>
-            <a th:unless="${i == pc.paging.getPageNum()}" th:href="@{'list?pageNum='+${i}}">
+<!--            페이지 번호-->
+        <span th:each="i : ${#numbers.sequence(pagination.getBeginPage(), pagination.getEndPage())}">
+            <span th:if="${i == pagination.getPageNum()}" href="javascript:void(0)" th:text="${i}"></span>
+            <a th:unless="${i == pagination.getPageNum()}"
+               th:href="@{'list?pageNum='+${i}
+               + '&startDate='+${#strings.substring(searchFilter.getStartDate(),0,10)}
+               + '&endDate='+${#strings.substring(searchFilter.getEndDate(),0,10)}
+               + '&searchText='+${searchFilter.getSearchText()}
+               + '&category='+${searchFilter.getCategory()}}">
                 <span th:text="${i}"></span>
             </a>
         </span>
 
-        <a th:if="${pc.next}" th:href="@{'list?pageNum='+${pc.paging.getPageNum()+1}}">Next </a>
-        <a th:unless="${pc.next}" href="javascript:void(0)">Next </a>
+<!--        다음 페이지-->
+        <a th:if="${pagination.next}" th:href="@{'list?pageNum='+${pagination.getPageNum()+1}}">Next </a>
+        <a th:unless="${pagination.next}" href="javascript:void(0)">Next </a>
 
-        <a th:href="@{'list?pageNum='+${pc.lastPage}}">&raquo; </a>
+<!--        마지막 페이지로-->
+        <a th:href="@{'list?pageNum='+${pagination.lastPage}}">&raquo; </a>
     </nav>
 </div>
 <div class="list_button">
-    <a th:href="@{'write?pageNum='+${pc.paging.getPageNum()}}">등록 </a>
+    <a th:href="@{'write?pageNum='+${pagination.getPageNum()}}">등록 </a>
 </div>
 </body>
 </html>

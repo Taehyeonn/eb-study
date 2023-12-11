@@ -1,7 +1,7 @@
 package com.ebstudytemplates3week.mapper;
 
 import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.Page;
+import com.ebstudytemplates3week.domain.SearchFilter;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,10 +13,10 @@ import java.util.Map;
 public interface BoardMapper {
 
     // 총 게시글 수 출력
-    int getTotalCount(Page page);
+    int getTotalCount(SearchFilter searchFilter);
 
     // 게시글 리스트 출력
-    List<Board> getBoardList(Page page);
+    List<Board> getBoardList(Map<String, Object> map);
 
     // 게시글 세부 조회
     List<Board> getBoardById(String id);

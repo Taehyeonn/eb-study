@@ -23,31 +23,40 @@ public class BoardController {
     private final CategoryService categoryService;
     private final CommentService commentService;
 
-
-    //전체조회
     /**
-     * 의도
-     * @param model 파라미터 설명
-     * @param page
-     * @return 반환값설명
+     * 검색 조건을 이용해 게시글 목록과 페이지 네비게이션 출력
+     *
+     * @param sf 검색 조건(시작일, 종료일, 카테고리, 키워드)
+     * @param pg 페이지네이션(pageNum)
+     * @param model searchFilter, pagination, boardList, categoryList
+     * @return list
      */
     @GetMapping("/list")
-    public String getList(Model model, Page page) {
+    public String getList(@ModelAttribute("searchFilter") SearchFilter sf,
+                          @ModelAttribute("pagination") Pagination pg,
+                          Model model) {
 
-        PageCreate pc = new PageCreate();
-        pc.setPaging(page);
-        pc.setTotalCount(boardService.getTotalCount(page));
+        //검색 필터 셋팅
+        SearchFilter searchFilter = boardService.getSearchFilter(sf);
+        model.addAttribute("searchFilter", searchFilter);
 
-        model.addAttribute("boardList", boardService.getBoardList(page));
-        model.addAttribute("pc", pc);
+        //페이지네이션
+        Pagination pagination = new Pagination();
+        pagination.setPageNum(pg.getPageNum());
+        pagination.setTotalCount(boardService.getTotalCount(searchFilter));
 
+        model.addAttribute("pagination", pagination);
+
+        //게시글 목록
+        model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination));
+
+        //카테고리 목록
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
 
         return "list";
     }
     //todo: 쿼리랑 파라미터를 나눠서 전달,
-    //todo: 검색조건과 페이지네이션 분리
 
     //상세조회
     @GetMapping("/view")
