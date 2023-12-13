@@ -27,4 +27,10 @@ public interface BoardMapper {
     //게시글 작성
     void writeBoard(Board board);
 
+    // 글수정
+    void modifyBoard(Board board);
+
+    // 비밀번호 확인
+    int passwordCheck(Board board);
+
 }

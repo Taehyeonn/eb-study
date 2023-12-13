@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+<!--    <script type="text/javascript" th:src="@{/validateForm.js}"></script>-->
+</head>
+<body>
+<h2>자유게시판 - 수정</h2>
+<div>
+    <form action method="post">
+        <span>카테고리:</span>
+        <span th:text="${board[0].categoryName}"></span>
+        <br>
+        <span>등록일시:</span>
+        <span th:text="${#strings.substring(board[0].registrationDate,0,16)}"></span>
+        <br>
+        <span>수정일시:</span>
+        <span th:text="${board[0].modificationDate != null ? #strings.substring(board[0].modificationDate,0,16) : '-'}"></span>
+        <br>
+        <span>조회수:</span>
+        <span th:text="${board[0].viewCount}"></span>
+        <br>
+        <label for="writer">작성자:</label>
+        <input type="text" name="writer" id="writer" th:value="${board[0].writer}">
+        <br>
+        <label for="password">비밀번호:</label>
+        <input type="password" name="password" id="password" placeholder="비밀번호">
+        <br>
+        <label for="title">제목:</label>
+        <input type="text" name="title" id="title" th:value="${board[0].title}">
+        <br>
+        <label for="content">내용:</label>
+        <textarea name="content" id="content" rows="5" th:text="${board[0].content}"></textarea>
+        <br>
+<!--        <label for="file">파일 첨부:</label>-->
+<!--        <input type="file" name="file" id="file">-->
+<!--        <br>-->
+        <button type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pageNum})}'|">취소</button>
+        <input type="submit" id="submitButton" value="수정">
+    </form>
+</div>
+</body>
+</html>

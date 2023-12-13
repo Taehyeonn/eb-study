@@ -97,4 +97,15 @@ public class BoardService {
 
         return new SearchFilter(category, searchText, startDate, endDate);
     }
+
+    // 비밀번호 확인
+    public int passwordCheck(Board board) {
+
+        return boardMapper.passwordCheck(board);
+    }
+
+    // 게시글 수정
+    public void modifyBoard(Board board) {
+        boardMapper.modifyBoard(board);
+    }
 }

@@ -119,6 +119,40 @@ public class BoardController {
         return "redirect:/board/free/list";
     }
 
+    //수정
+    @GetMapping("/modify")
+    public String getModifyInfo(
+            Model model,
+            @RequestParam("id") String id,
+            @RequestParam("pageNum") String pageNum) {
+
+        model.addAttribute("board", boardService.getBoardById(id));
+//        model.addAttribute("commentList", commentService.getCommentByBoardId(id));
+        model.addAttribute("id", id); //todo 굳이 필요한지
+        model.addAttribute("pageNum", pageNum);
+
+        return "modify";
+    }
+
+    // 수정 등록
+    @PostMapping("/modify")
+    public String modifyBoard(
+            @ModelAttribute("board") Board board){
+
+        log.info("board ={}", board);
+
+        // boardId와 password가 일치하는지
+        boolean isNotPassword = boardService.passwordCheck(board) == 0;
+
+        if (isNotPassword) {
+            return "400";
+        }
+
+        boardService.modifyBoard(board);
+
+        return "redirect:/board/free/list";
+    }
+
 }
 //TODO: 컨트롤러를 분류 단위-> 엔티티단위
 //TODO: 서버 유효성 검사 @Valid 사용

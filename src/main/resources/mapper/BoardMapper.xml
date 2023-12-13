@@ -54,4 +54,21 @@
              #{categoryId}, #{writer}, #{password}, #{title}, #{content});
     </insert>
 
+    <update id="modifyBoard">
+        UPDATE
+            board
+        SET
+            writer = #{writer},
+            title = #{title},
+            content = #{content},
+            modification_date = now()
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="passwordCheck" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+        WHERE id = #{id} AND password = #{password}
+    </select>
 </mapper>
