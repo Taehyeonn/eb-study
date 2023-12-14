@@ -4,7 +4,7 @@ import com.ebstudytemplates3week.domain.*;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.CategoryService;
 import com.ebstudytemplates3week.service.CommentService;
-import com.ebstudytemplates3week.util.Validation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -58,7 +58,13 @@ public class BoardController {
     }
     //todo: 쿼리랑 파라미터를 나눠서 전달,
 
-    //상세조회
+    /**
+     * 게시글 상세 조회
+     * @param model
+     * @param id
+     * @param pageNum
+     * @return view
+     */
     @GetMapping("/view")
     public String getViewInfo(
             Model model,
@@ -76,9 +82,12 @@ public class BoardController {
     }
     //todo: 잘못된 id,pageNum 예외처리
 
-
-
-    // write 페이지에 필요한 카테고리, pageNum
+    /**
+     * 글 작성 페이지 출력
+     * @param pageNum
+     * @param model
+     * @return write
+     */
     @GetMapping("/write")
     public String getWriteInfo(
             @RequestParam("pageNum") String pageNum,
@@ -91,35 +100,29 @@ public class BoardController {
         return "write";
     }
 
-    // 유효성 검사 로직 성공시 글 등록
+    /**
+     * 글 등록 버튼 클릭시 유효성 검사 후 글 작성
+     * @param board
+     * @return redirect:/board/free/list
+     */
     @PostMapping("/write")
     public String writeBoard(
-            @ModelAttribute("board") Board board,
-            @RequestParam("confirmPassword") String confirmPassword){
-
-        Validation validation = new Validation();
+            @ModelAttribute("board") @Valid Board board){
 
         log.info("board ={}", board);
-
-        /**
-         * 서버 유효성 검사 수행후 실패시 에러 페이지 발생
-         */
-        if (validation.isNotValidCategory(String.valueOf(board.getCategoryId()))
-                || validation.isNotValidWriter(board.getWriter())
-                || validation.isNotValidTitle(board.getTitle())
-                || validation.isNotValidContent(board.getContent())
-                || validation.isNotValidPassword(board.getPassword())
-                || validation.isNotPasswordMatching(board.getPassword(), confirmPassword)) {
-
-            return "400";
-        }
 
         boardService.writeBoard(board);
 
         return "redirect:/board/free/list";
     }
 
-    //수정
+    /**
+     * 글 작성 폼에 필요한 요소들 출력
+     * @param model
+     * @param id board 번호
+     * @param pageNum
+     * @return modify
+     */
     @GetMapping("/modify")
     public String getModifyInfo(
             Model model,
@@ -127,26 +130,29 @@ public class BoardController {
             @RequestParam("pageNum") String pageNum) {
 
         model.addAttribute("board", boardService.getBoardById(id));
-//        model.addAttribute("commentList", commentService.getCommentByBoardId(id));
         model.addAttribute("id", id); //todo 굳이 필요한지
         model.addAttribute("pageNum", pageNum);
 
         return "modify";
     }
 
-    // 수정 등록
+    /**
+     *  게시글 수정 버튼 클릭시 유효성 검사 후 수정
+     * @param board
+     * @return redirect:/board/free/list
+     */
     @PostMapping("/modify")
     public String modifyBoard(
-            @ModelAttribute("board") Board board){
+            @ModelAttribute("board") @Valid Board board){
 
         log.info("board ={}", board);
 
         // boardId와 password가 일치하는지
-        boolean isNotPassword = boardService.passwordCheck(board) == 0;
+//        boolean isNotPassword = boardService.passwordCheck(board) == 0;
 
-        if (isNotPassword) {
-            return "400";
-        }
+//        if (isNotPassword) {
+//            return "400";
+//        }
 
         boardService.modifyBoard(board);
 
@@ -154,12 +160,4 @@ public class BoardController {
     }
 
 }
-//TODO: 컨트롤러를 분류 단위-> 엔티티단위
-//TODO: 서버 유효성 검사 @Valid 사용
-//TODO: vue 인텔리제이 통합? VSC 따로?
-// -> rest api로 변환
-//스프링에선 restcontroller로 다 바꾸기
-//컴퍼지션 사용
-//옵저버패턴공부
-
 //TODO 글로벌에러 핸들러에서 모든 처리. 메서드는 익셉션 던지기만
