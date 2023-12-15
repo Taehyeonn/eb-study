@@ -3,12 +3,43 @@
 <head>
     <meta charset="utf-8">
     <title>title</title>
-<!--    <script type="text/javascript" th:src="@{/validateForm.js}"></script>-->
+    <script type="text/javascript" th:src="@{/validateForm.js}"></script>
+    <script>
+        function inputValidCheck() {
+
+            let writer = document.getElementById("writer").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let title = document.getElementById("title").value;
+            let content = document.getElementById("content").value;
+
+            if (inValidWriter(writer)){
+                alert("작성자는 3글자 이상 5글자 미만이어야 합니다.");
+                return false;
+            }
+
+            if (inValidPassword(password)){
+                alert("비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다. ");
+                return false;
+            }
+
+            if (inValidTitle(title)){
+                alert("제목은 4글자 이상 100글자 미만이어야 합니다.");
+                return false;
+            }
+
+            if (inValidContent(content)){
+                alert("내용은 4글자 이상 2000글자 미만이어야 합니다.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <h2>자유게시판 - 수정</h2>
 <div>
-    <form action method="post">
+    <form action method="post" onsubmit="return inputValidCheck()">
         <span>카테고리:</span>
         <span th:text="${board[0].categoryName}"></span>
         <br>
