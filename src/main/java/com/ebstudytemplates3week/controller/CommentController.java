@@ -1,10 +1,13 @@
 package com.ebstudytemplates3week.controller;
 
+import com.ebstudytemplates3week.domain.Board;
 import com.ebstudytemplates3week.domain.Comment;
 import com.ebstudytemplates3week.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,27 +24,20 @@ public class CommentController {
 
     /**
      * 댓글 추가
-     * @param id
      * @param pageNum
-     * @param content
-     * @param ra
+     * @param board id, content
+     * @param ra RedirectAttributes
      * @return redirect:/board/free/view
      */
     @PostMapping
     public String insertComment(
-            @RequestParam("id") String id,
             @RequestParam("pageNum") String pageNum,
-            @RequestParam("content") String content,
+            @ModelAttribute("board") Board board,
             RedirectAttributes ra) {
 
-        Comment comment = new Comment();
-        comment.setBoardId(id);
-        comment.setContent(content);
-        //TODO: 바인딩 된 채로 받기
+        commentService.insertComment(board);
 
-        commentService.insertComment(comment);
-
-        ra.addAttribute("id", id);
+        ra.addAttribute("id", board.getId());
         ra.addAttribute("pageNum", pageNum);
 
         return "redirect:/board/free/view";

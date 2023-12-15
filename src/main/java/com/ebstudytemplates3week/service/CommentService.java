@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.service;
 
+import com.ebstudytemplates3week.domain.Board;
 import com.ebstudytemplates3week.domain.Comment;
 import com.ebstudytemplates3week.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class CommentService {
 
     /**
      * 댓글 작성
-     * @param comment board_id, content
+     * @param board board_id, content
      */
-    public void insertComment(Comment comment) {
-        commentMapper.insertComment(comment);
+    public void insertComment(Board board) {
+        commentMapper.insertComment(board);
     }
 }
