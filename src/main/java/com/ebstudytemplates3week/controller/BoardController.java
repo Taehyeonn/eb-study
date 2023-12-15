@@ -5,6 +5,8 @@ import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.CategoryService;
 import com.ebstudytemplates3week.service.CommentService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -26,8 +28,8 @@ public class BoardController {
     /**
      * 검색 조건을 이용해 게시글 목록과 페이지 네비게이션 출력
      *
-     * @param sf 검색 조건(시작일, 종료일, 카테고리, 키워드)
-     * @param pg 페이지네이션(pageNum)
+     * @param sf    검색 조건(시작일, 종료일, 카테고리, 키워드)
+     * @param pg    페이지네이션(pageNum)
      * @param model searchFilter, pagination, boardList, categoryList
      * @return list
      */
@@ -60,8 +62,9 @@ public class BoardController {
 
     /**
      * 게시글 상세 조회
+     *
      * @param model
-     * @param id board_id
+     * @param id      board_id
      * @param pageNum
      * @return view
      */
@@ -84,6 +87,7 @@ public class BoardController {
 
     /**
      * 글 작성 페이지 출력
+     *
      * @param pageNum
      * @param model
      * @return write
@@ -102,12 +106,13 @@ public class BoardController {
 
     /**
      * 글 등록 버튼 클릭시 유효성 검사 후 글 작성
+     *
      * @param board category_id, writer, password, title, content
      * @return redirect:/board/free/list
      */
     @PostMapping("/write")
     public String writeBoard(
-            @ModelAttribute("board") @Valid Board board){
+            @ModelAttribute("board") @Valid Board board) {
 
         log.info("board ={}", board);
 
@@ -118,8 +123,9 @@ public class BoardController {
 
     /**
      * 글 작성 폼에 필요한 요소들 출력
+     *
      * @param model
-     * @param id board 번호
+     * @param id      board 번호
      * @param pageNum
      * @return modify
      */
@@ -137,13 +143,14 @@ public class BoardController {
     }
 
     /**
-     *  게시글 수정(비밀번호 검증은 서비스에서)
+     * 게시글 수정(비밀번호 검증은 서비스에서)
+     *
      * @param board writer, title, content
      * @return redirect:/board/free/list
      */
     @PostMapping("/modify")
     public String modifyBoard(
-            @ModelAttribute("board") @Valid Board board){
+            @ModelAttribute("board") @Valid Board board) {
 
         log.info("board ={}", board);
 
@@ -152,4 +159,26 @@ public class BoardController {
         return "redirect:/board/free/list";
     }
 
+    @GetMapping("/delete")
+    public String deleteForm(
+            Model model,
+            @RequestParam("id") String id,
+            @RequestParam("pageNum") String pageNum) {
+
+        model.addAttribute("id", id);
+        model.addAttribute("pageNum", pageNum);
+
+        return "delete";
+    }
+
+    @PostMapping("/delete")
+    public String deleteBoard(
+            @RequestParam("id") String id,
+            @RequestParam("password") @NotBlank @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{4,16}$"
+                    , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.") String password) {
+
+        boardService.deleteBoard(id, password);
+
+        return "redirect:/board/free/list";
+    }
 }

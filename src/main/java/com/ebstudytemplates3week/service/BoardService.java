@@ -110,16 +110,6 @@ public class BoardService {
     }
 
     /**
-     * id와 password의 일치 여부 확인
-     * @param board id,password
-     * @return 일치하지 않으면 0
-     */
-    public int passwordCheck(Board board) {
-
-        return boardMapper.passwordCheck(board);
-    }
-
-    /**
      * 비밀번호 검증 후 글 수정
      * @param board writer, title, content
      */
@@ -133,6 +123,29 @@ public class BoardService {
         } else {
             throw new PasswordMismatchException("Incorrect password");
         }
+    }
 
+    /**
+     */
+
+    /**
+     * 비밀번호 검증 후 게시글 삭제
+     * @param id
+     * @param password
+     */
+    public void deleteBoard(String id, String password) {
+
+        Board board = new Board();
+        board.setId(Integer.parseInt(id));
+        board.setPassword(password);
+
+        // 비밀번호 검증
+        int passwordCheckResult = boardMapper.passwordCheck(board);
+        if (passwordCheckResult == 1) {
+            boardMapper.deleteBoard(String.valueOf(board.getId()));
+
+        } else {
+            throw new PasswordMismatchException("Incorrect password");
+        }
     }
 }

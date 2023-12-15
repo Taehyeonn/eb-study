@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>title</title>
+        <script type="text/javascript" th:src="@{/validateForm.js}"></script>
+        <script>
+            function inputCheck() {
+
+                let password = document.getElementById("password").value.trim();
+
+                if (inValidPassword(password)) {
+                    alert("비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다. ");
+                    return false;
+                }
+
+                return true;
+            }
+        </script>
+</head>
+<body>
+<h2>자유게시판 - 삭제 (비밀번호 확인)</h2>
+<form action method="post" onsubmit="return inputCheck()">
+    <label for="password">비밀번호:</label>
+    <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
+    <button type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pageNum})}'|">취소</button>
+    <input type="submit" value="확인">
+</form>
+</body>
+</html>

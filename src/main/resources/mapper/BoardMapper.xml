@@ -71,4 +71,10 @@
         FROM board
         WHERE id = #{id} AND password = #{password}
     </select>
+
+    <delete id="deleteBoard">
+        DELETE
+        FROM board
+        WHERE id = #{id}
+    </delete>
 </mapper>

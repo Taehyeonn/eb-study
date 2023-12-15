@@ -57,4 +57,10 @@ public interface BoardMapper {
      * @return 불일치시 0
      */
     int passwordCheck(Board board);
+
+    /**
+     * 게시글 삭제
+     * @param id 삭제할 id
+     */
+    void deleteBoard(String id);
 }
