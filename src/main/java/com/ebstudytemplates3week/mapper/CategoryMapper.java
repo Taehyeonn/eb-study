@@ -8,6 +8,9 @@ import java.util.List;
 @Mapper
 public interface CategoryMapper {
 
-    // 전체 카테고리 출력
+    /**
+     * 전체 카테고리 조회
+     * @return List<Category>
+     */
     List<Category> getCategoryList();
 }

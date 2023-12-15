@@ -49,17 +49,27 @@ public class BoardService {
         return boardMapper.getBoardList(map);
     }
 
-    //게시글 조회
+    /**
+     * id에 해당하는 게시글 상세 조회
+     * @param id board_id
+     * @return List<Board>
+     */
     public List<Board> getBoardById(String id) {
         return boardMapper.getBoardById(id);
     }
 
-    //조회수 증가
+    /**
+     * id에 해당하는 조회수 증가
+     * @param id board_id
+     */
     public void increaseViewCount(String id) {
         boardMapper.increaseViewCount(id);
     }
 
-    //게시글 작성
+    /**
+     * 입력받은 board 파라미터를 이용해 게시글 작성
+     * @param board category_id, writer, password, title, content
+     */
     public void writeBoard(Board board) {
         boardMapper.writeBoard(board);
     }
@@ -98,14 +108,30 @@ public class BoardService {
         return new SearchFilter(category, searchText, startDate, endDate);
     }
 
-    // 비밀번호 확인
+    /**
+     * id와 password의 일치 여부 확인
+     * @param board id,password
+     * @return 일치하지 않으면 0
+     */
     public int passwordCheck(Board board) {
 
         return boardMapper.passwordCheck(board);
     }
 
-    // 게시글 수정
+    /**
+     * 게시글 수정
+     * @param board writer, title, content
+     */
     public void modifyBoard(Board board) {
         boardMapper.modifyBoard(board);
     }
+
+//    // id 일치 여부 확인 (공용 사용되는 부분)
+//    private Board findBoard(Long id) {
+//        return boardMapper.findById(id).orElseThrow(() ->
+//                new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
+//        );
+//    }
+//
+//    private findById
 }

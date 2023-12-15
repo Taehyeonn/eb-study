@@ -13,7 +13,10 @@ public class CategoryService {
 
     private final CategoryMapper categoryMapper;
 
-    // 카테고리 목록 출력
+    /**
+     * 카테고리 목록 출력
+     * @return List<Category>
+     */
     public List<Category> getCategoryList() {
         return categoryMapper.getCategoryList();
     }

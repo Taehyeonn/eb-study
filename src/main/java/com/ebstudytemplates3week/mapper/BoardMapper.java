@@ -12,25 +12,49 @@ import java.util.Map;
 @Mapper
 public interface BoardMapper {
 
-    // 총 게시글 수 출력
+    /**
+     * 총 게시글 수 조회
+     * @param searchFilter startDate, endDate, category, searchText
+     * @return 총 게시글 수
+     */
     int getTotalCount(SearchFilter searchFilter);
 
-    // 게시글 리스트 출력
+    /**
+     * 게시글 리스트 조회
+     * @param map startDate, endDate, category, searchText, startNum, limit
+     * @return List<Board>
+     */
     List<Board> getBoardList(Map<String, Object> map);
 
-    // 게시글 세부 조회
+    /**
+     * id와 매칭되는 게시글 세부 조회
+     * @param id
+     * @return List<Board>
+     */
     List<Board> getBoardById(String id);
 
-    //조회수 증가
+    /**
+     * id의 조회수 증가
+     * @param id
+     */
     void increaseViewCount(String id);
 
-    //게시글 작성
+    /**
+     * 게시글 작성
+     * @param board category_id, writer, password, title, content
+     */
     void writeBoard(Board board);
 
-    // 글수정
+    /**
+     * 게시글 수정
+     * @param board id, writer, title, content
+     */
     void modifyBoard(Board board);
 
-    // 비밀번호 확인
+    /**
+     * 비밀번호 일치 여부 확인
+     * @param board id, password
+     * @return 불일치시 0
+     */
     int passwordCheck(Board board);
-
 }

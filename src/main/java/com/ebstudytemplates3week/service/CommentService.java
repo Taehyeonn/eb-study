@@ -13,12 +13,19 @@ public class CommentService {
 
     private final CommentMapper commentMapper;
 
-    //댓글 리스트 조회
+    /**
+     * 댓글 목록 출력
+     * @param id
+     * @return List<Comment>
+     */
     public List<Comment> getCommentByBoardId(String id) {
         return commentMapper.getCommentByBoardId(id);
     }
 
-    //댓글 작성
+    /**
+     * 댓글 작성
+     * @param comment board_id, content
+     */
     public void insertComment(Comment comment) {
         commentMapper.insertComment(comment);
     }

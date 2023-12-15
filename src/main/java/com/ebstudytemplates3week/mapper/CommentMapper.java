@@ -8,9 +8,16 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
 
-    // 댓글 조회
+    /**
+     * id에 해당하는 댓글 조회
+     * @param id
+     * @return List<Comment>
+     */
     List<Comment> getCommentByBoardId(String id);
 
-    // 댓글 작성
+    /**
+     * id에 해당하는 댓글 조회
+     * @param comment id, content
+     */
     void insertComment(Comment comment);
 }

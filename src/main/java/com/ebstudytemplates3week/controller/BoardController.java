@@ -61,7 +61,7 @@ public class BoardController {
     /**
      * 게시글 상세 조회
      * @param model
-     * @param id
+     * @param id board_id
      * @param pageNum
      * @return view
      */
@@ -102,7 +102,7 @@ public class BoardController {
 
     /**
      * 글 등록 버튼 클릭시 유효성 검사 후 글 작성
-     * @param board
+     * @param board category_id, writer, password, title, content
      * @return redirect:/board/free/list
      */
     @PostMapping("/write")
@@ -138,7 +138,7 @@ public class BoardController {
 
     /**
      *  게시글 수정 버튼 클릭시 유효성 검사 후 수정
-     * @param board
+     * @param board writer, title, content
      * @return redirect:/board/free/list
      */
     @PostMapping("/modify")
@@ -160,4 +160,3 @@ public class BoardController {
     }
 
 }
-//TODO 글로벌에러 핸들러에서 모든 처리. 메서드는 익셉션 던지기만

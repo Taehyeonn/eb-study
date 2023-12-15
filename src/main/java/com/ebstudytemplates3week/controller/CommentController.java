@@ -19,6 +19,14 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    /**
+     * 댓글 추가
+     * @param id
+     * @param pageNum
+     * @param content
+     * @param ra
+     * @return redirect:/board/free/view
+     */
     @PostMapping
     public String insertComment(
             @RequestParam("id") String id,
