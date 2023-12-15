@@ -15,19 +15,20 @@ public class Board {
     private int categoryId; //카테고리 코드 1:spring 2:java 등
 
     @NotBlank
-    @Size(min=3, max=5)
+    @Size(min=3, max=5, message = "작성자는 3글자 이상, 5글자 미만이어야 합니다.")
     private String writer;
 
     @NotBlank
-    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{4,16}$")
+    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{4,16}$"
+    , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.")
     private String password;
 
     @NotBlank
-    @Size(min=4, max=100)
+    @Size(min=4, max=100, message = "제목은 4글자 이상, 100글자 미만이어야 합니다.")
     private String title;
 
     @NotBlank
-    @Size(min=4, max=2000)
+    @Size(min=4, max=2000, message = "내용은 4글자 이상, 2000글자 미만이어야 합니다.")
     private String content;
 
     private String viewCount ; // 조회수

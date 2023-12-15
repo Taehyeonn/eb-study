@@ -3,6 +3,7 @@ package com.ebstudytemplates3week.service;
 import com.ebstudytemplates3week.domain.Board;
 import com.ebstudytemplates3week.domain.Pagination;
 import com.ebstudytemplates3week.domain.SearchFilter;
+import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.mapper.BoardMapper;
 import com.ebstudytemplates3week.util.Utils;
 import lombok.RequiredArgsConstructor;
@@ -119,19 +120,19 @@ public class BoardService {
     }
 
     /**
-     * 게시글 수정
+     * 비밀번호 검증 후 글 수정
      * @param board writer, title, content
      */
     public void modifyBoard(Board board) {
-        boardMapper.modifyBoard(board);
-    }
 
-//    // id 일치 여부 확인 (공용 사용되는 부분)
-//    private Board findBoard(Long id) {
-//        return boardMapper.findById(id).orElseThrow(() ->
-//                new IllegalArgumentException("선택한 게시글은 존재하지 않습니다.")
-//        );
-//    }
-//
-//    private findById
+        // 비밀번호 검증
+        int passwordCheckResult = boardMapper.passwordCheck(board);
+        if (passwordCheckResult == 1) {
+            boardMapper.modifyBoard(board);
+
+        } else {
+            throw new PasswordMismatchException("Incorrect password");
+        }
+
+    }
 }

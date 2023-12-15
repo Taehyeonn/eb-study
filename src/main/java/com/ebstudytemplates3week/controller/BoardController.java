@@ -137,7 +137,7 @@ public class BoardController {
     }
 
     /**
-     *  게시글 수정 버튼 클릭시 유효성 검사 후 수정
+     *  게시글 수정(비밀번호 검증은 서비스에서)
      * @param board writer, title, content
      * @return redirect:/board/free/list
      */
@@ -146,13 +146,6 @@ public class BoardController {
             @ModelAttribute("board") @Valid Board board){
 
         log.info("board ={}", board);
-
-        // boardId와 password가 일치하는지
-//        boolean isNotPassword = boardService.passwordCheck(board) == 0;
-
-//        if (isNotPassword) {
-//            return "400";
-//        }
 
         boardService.modifyBoard(board);
 
