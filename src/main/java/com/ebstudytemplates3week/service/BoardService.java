@@ -38,7 +38,7 @@ public class BoardService {
      */
     public List<Board> getBoardList(SearchFilter searchFilter, Pagination pagination) {
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(); //todo 파라미터 그대로 보내기. map은 너무 자유로워서. 실수방지
 
         map.put("category", searchFilter.getCategory());
         map.put("searchText", searchFilter.getSearchText());
@@ -81,22 +81,26 @@ public class BoardService {
      * @param searchFilter 검색 조건(시작일, 종료일, 카테고리, 키워드)
      * @return 검색 조건(시작일, 종료일, 카테고리, 키워드)
      */
-    public SearchFilter getSearchFilter(SearchFilter searchFilter) {
+    public SearchFilter getSearchFilter(SearchFilter searchFilter) { //todo 굳이 필요한 메서드인지
 
         Utils utils = new Utils();
 
         int category = 0;
         String searchText = "";
+//        String searchText = searchFilter.getSearchText() == null ? "" : searchFilter.getSearchText();
+
         String startDate = utils.getStartDate() + " " + searchFilter.getSTART_TIME();
         String endDate = utils.getEndDate() + " " + searchFilter.getEND_TIME();
 
         if (searchFilter.getCategory() != 0) {
             category = searchFilter.getCategory();
         }
+//        category = searchFilter.getCategory();
 
         if (searchFilter.getSearchText() != null) {
             searchText = searchFilter.getSearchText();
         }
+        searchText = searchFilter.getSearchText() == null ? "" : searchFilter.getSearchText();
 
         if (searchFilter.getStartDate() != null) {
             startDate = searchFilter.getStartDate() + " " + searchFilter.getSTART_TIME();
@@ -124,9 +128,6 @@ public class BoardService {
             throw new PasswordMismatchException("Incorrect password");
         }
     }
-
-    /**
-     */
 
     /**
      * 비밀번호 검증 후 게시글 삭제

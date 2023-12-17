@@ -24,7 +24,10 @@ public class Pagination {
         this.limit = 10;
     }
 
-    //페이징에 필요한 변수들 설정
+    /**
+     * 페이징에 필요한 변수들 설정
+     * beginPage, endPage, lastPage, prev, next
+     */
     private void calcDataOfPage() {
 
         beginPage = (pageNum-1) / PAGE_LIMIT * PAGE_LIMIT + 1;
@@ -43,13 +46,19 @@ public class Pagination {
         }
     }
 
-    //총 게시글수가 설정될 때 페이징 요소들도 다시 설정한다
+    /**
+     * 총 게시글수가 바뀔 때 페이징 요소들도 다시 설정한다
+     * @param totalCount
+     */
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
         calcDataOfPage();
     }
 
-    //바인딩용으로 변환 (검색 시작 번호)
+    /**
+     * 바인딩용으로 변환 (검색 시작 번호)
+     * @return 검색 시작 인덱스
+     */
     public int getStartNum() {
         return (pageNum-1) * 10 ;
     }

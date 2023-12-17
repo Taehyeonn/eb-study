@@ -34,7 +34,7 @@ public class BoardController {
      * @return list
      */
     @GetMapping("/list")
-    public String getList(@ModelAttribute("searchFilter") SearchFilter sf,
+    public String getList(@ModelAttribute("searchFilter") SearchFilter sf, //todo 변수명 줄임말 쓰지말기
                           @ModelAttribute("pagination") Pagination pg,
                           Model model) {
 
@@ -43,7 +43,7 @@ public class BoardController {
         model.addAttribute("searchFilter", searchFilter);
 
         //페이지네이션
-        Pagination pagination = new Pagination();
+        Pagination pagination = new Pagination();//todo 불필요한 작업
         pagination.setPageNum(pg.getPageNum());
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));
 
@@ -68,7 +68,7 @@ public class BoardController {
      * @param pageNum
      * @return view
      */
-    @GetMapping("/view")
+    @GetMapping("/view") //todo
     public String getViewInfo(
             Model model,
             @RequestParam("id") String id,
@@ -94,7 +94,7 @@ public class BoardController {
      */
     @GetMapping("/write")
     public String getWriteInfo(
-            @RequestParam("pageNum") String pageNum,
+            @RequestParam("pageNum") String pageNum, //todo 검색조건이 계속 따라다녀야 한다
             Model model) {
 
         List<Category> categoryList = categoryService.getCategoryList();
@@ -154,11 +154,18 @@ public class BoardController {
 
         log.info("board ={}", board);
 
-        boardService.modifyBoard(board);
+        boardService.modifyBoard(board); //todo 비밀번호체크는 서비스로 제공되어야 한다. 비즈니스로직의 영역
 
         return "redirect:/board/free/list";
     }
 
+    /**
+     * 게시글 삭제 폼
+     * @param model 모델
+     * @param id 삭제할 보드 idx
+     * @param pageNum
+     * @return
+     */
     @GetMapping("/delete")
     public String deleteForm(
             Model model,
@@ -171,6 +178,12 @@ public class BoardController {
         return "delete";
     }
 
+    /**
+     * 게시글 삭제(비밀번호 검증은 서비스에서)
+     * @param id
+     * @param password
+     * @return
+     */
     @PostMapping("/delete")
     public String deleteBoard(
             @RequestParam("id") String id,
@@ -182,3 +195,10 @@ public class BoardController {
         return "redirect:/board/free/list";
     }
 }
+//todo 레이어 별로 일관성있게
+//컨트롤러에서는 주문접수만
+//조리는 서비스
+//역할을 구분하자
+
+//도메인보다는 vo(get set만)
+//싱글페이지(사용자) 멀티페이지(관리자) 두개. 각각의 의도까지
