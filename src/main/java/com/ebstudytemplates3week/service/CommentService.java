@@ -1,7 +1,7 @@
 package com.ebstudytemplates3week.service;
 
-import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.Comment;
+import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.Comment;
 import com.ebstudytemplates3week.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

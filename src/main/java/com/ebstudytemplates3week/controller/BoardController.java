@@ -1,6 +1,6 @@
 package com.ebstudytemplates3week.controller;
 
-import com.ebstudytemplates3week.domain.*;
+import com.ebstudytemplates3week.vo.*;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.CategoryService;
 import com.ebstudytemplates3week.service.CommentService;

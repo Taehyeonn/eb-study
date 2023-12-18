@@ -1,6 +1,6 @@
 package com.ebstudytemplates3week.service;
 
-import com.ebstudytemplates3week.domain.Category;
+import com.ebstudytemplates3week.vo.Category;
 import com.ebstudytemplates3week.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

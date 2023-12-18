@@ -1,4 +1,4 @@
-package com.ebstudytemplates3week.domain;
+package com.ebstudytemplates3week.vo;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

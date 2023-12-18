@@ -1,7 +1,7 @@
 package com.ebstudytemplates3week.mapper;
 
-import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.Comment;
+import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.Comment;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

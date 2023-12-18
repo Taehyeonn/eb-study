@@ -1,8 +1,8 @@
 package com.ebstudytemplates3week.service;
 
-import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.Pagination;
-import com.ebstudytemplates3week.domain.SearchFilter;
+import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.Pagination;
+import com.ebstudytemplates3week.vo.SearchFilter;
 import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.mapper.BoardMapper;
 import com.ebstudytemplates3week.util.Utils;

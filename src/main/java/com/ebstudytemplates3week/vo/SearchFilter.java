@@ -1,8 +1,7 @@
-package com.ebstudytemplates3week.domain;
+package com.ebstudytemplates3week.vo;
 
 import com.ebstudytemplates3week.util.Utils;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter

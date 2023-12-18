@@ -1,6 +1,6 @@
 package com.ebstudytemplates3week.mapper;
 
-import com.ebstudytemplates3week.domain.Category;
+import com.ebstudytemplates3week.vo.Category;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

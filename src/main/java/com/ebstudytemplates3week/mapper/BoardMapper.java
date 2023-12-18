@@ -1,11 +1,9 @@
 package com.ebstudytemplates3week.mapper;
 
-import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.SearchFilter;
+import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.SearchFilter;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

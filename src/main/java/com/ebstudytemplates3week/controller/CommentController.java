@@ -1,9 +1,7 @@
 package com.ebstudytemplates3week.controller;
 
-import com.ebstudytemplates3week.domain.Board;
-import com.ebstudytemplates3week.domain.Comment;
+import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.service.CommentService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
