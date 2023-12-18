@@ -29,13 +29,13 @@ public class BoardController {
      * 검색 조건을 이용해 게시글 목록과 페이지 네비게이션 출력
      *
      * @param sf    검색 조건(시작일, 종료일, 카테고리, 키워드)
-     * @param pg    페이지네이션(pageNum)
+     * @param pagination    페이지네이션(pageNum)
      * @param model searchFilter, pagination, boardList, categoryList
      * @return list
      */
     @GetMapping("/list")
     public String getList(@ModelAttribute("searchFilter") SearchFilter sf, //todo 변수명 줄임말 쓰지말기
-                          @ModelAttribute("pagination") Pagination pg,
+                          @ModelAttribute("pagination") Pagination pagination,
                           Model model) {
 
         //검색 필터 셋팅
@@ -43,10 +43,7 @@ public class BoardController {
         model.addAttribute("searchFilter", searchFilter);
 
         //페이지네이션
-        Pagination pagination = new Pagination();//todo 불필요한 작업
-        pagination.setPageNum(pg.getPageNum());
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));
-
         model.addAttribute("pagination", pagination);
 
         //게시글 목록
