@@ -44,6 +44,8 @@ public class BoardService {
         map.put("searchText", searchFilter.getSearchText());
         map.put("startDate", searchFilter.getStartDate());
         map.put("endDate", searchFilter.getEndDate());
+        map.put("END_TIME", searchFilter.getEND_TIME());
+        map.put("START_TIME", searchFilter.getSTART_TIME());
         map.put("startNum", pagination.getStartNum());
         map.put("limit", pagination.getLimit());
 
@@ -73,44 +75,6 @@ public class BoardService {
      */
     public void writeBoard(Board board) {
         boardMapper.writeBoard(board);
-    }
-
-    /**
-     * searchFilter 의 값을 지정한다
-     *
-     * @param searchFilter 검색 조건(시작일, 종료일, 카테고리, 키워드)
-     * @return 검색 조건(시작일, 종료일, 카테고리, 키워드)
-     */
-    public SearchFilter getSearchFilter(SearchFilter searchFilter) { //todo 굳이 필요한 메서드인지
-
-        Utils utils = new Utils();
-
-        int category = 0;
-        String searchText = "";
-//        String searchText = searchFilter.getSearchText() == null ? "" : searchFilter.getSearchText();
-
-        String startDate = utils.getStartDate() + " " + searchFilter.getSTART_TIME();
-        String endDate = utils.getEndDate() + " " + searchFilter.getEND_TIME();
-
-        if (searchFilter.getCategory() != 0) {
-            category = searchFilter.getCategory();
-        }
-//        category = searchFilter.getCategory();
-
-        if (searchFilter.getSearchText() != null) {
-            searchText = searchFilter.getSearchText();
-        }
-        searchText = searchFilter.getSearchText() == null ? "" : searchFilter.getSearchText();
-
-        if (searchFilter.getStartDate() != null) {
-            startDate = searchFilter.getStartDate() + " " + searchFilter.getSTART_TIME();
-        }
-
-        if (searchFilter.getEndDate() != null) {
-            endDate = searchFilter.getEndDate() + " " + searchFilter.getEND_TIME();
-        }
-
-        return new SearchFilter(category, searchText, startDate, endDate);
     }
 
     /**

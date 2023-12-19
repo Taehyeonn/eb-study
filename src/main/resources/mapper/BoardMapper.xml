@@ -6,7 +6,7 @@
     <select id="getTotalCount" resultType="int">
         SELECT count(*)
         FROM board
-        WHERE registration_date BETWEEN #{startDate} AND #{endDate}
+        WHERE registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
         <if test="category != 0">
             AND category_id = #{category}
         </if>
@@ -21,7 +21,7 @@
         SELECT board.*, category.name AS category_name
         FROM board
         JOIN category ON board.category_id = category.id
-        WHERE registration_date BETWEEN #{startDate} AND #{endDate}
+        WHERE registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
         <if test="category != 0">
             AND category_id = #{category}
         </if>

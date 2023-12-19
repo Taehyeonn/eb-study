@@ -16,16 +16,6 @@ public class SearchFilter {
     private final String START_TIME = "00:00:00";
     private final String END_TIME = "23:59:59";
 
-    public SearchFilter() {
-    }
-
-    public SearchFilter(int category, String searchText, String startDate, String endDate) {
-        this.category = category;
-        this.searchText = searchText;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     /**
      * 콘솔 Log 확인용
      * @return SearchFilter

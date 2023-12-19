@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.controller;
 
+import com.ebstudytemplates3week.util.Utils;
 import com.ebstudytemplates3week.vo.*;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.CategoryService;
@@ -28,23 +29,30 @@ public class BoardController {
     /**
      * 검색 조건을 이용해 게시글 목록과 페이지 네비게이션 출력
      *
-     * @param sf    검색 조건(시작일, 종료일, 카테고리, 키워드)
+     * @param searchFilter    검색 조건(시작일, 종료일, 카테고리, 키워드)
      * @param pagination    페이지네이션(pageNum)
      * @param model searchFilter, pagination, boardList, categoryList
      * @return list
      */
     @GetMapping("/list")
-    public String getList(@ModelAttribute("searchFilter") SearchFilter sf, //todo 변수명 줄임말 쓰지말기
+    public String getList(@ModelAttribute("searchFilter") SearchFilter searchFilter,
                           @ModelAttribute("pagination") Pagination pagination,
                           Model model) {
 
-        //검색 필터
-        SearchFilter searchFilter = boardService.getSearchFilter(sf);
-        model.addAttribute("searchFilter", searchFilter);
+        Utils utils = new Utils();
+
+        //검색 필터 set(view에 내려줄 날짜 데이터 set)
+        if (searchFilter.getStartDate() == null) {
+            searchFilter.setStartDate(String.valueOf(utils.getStartDate()));
+            searchFilter.setEndDate(String.valueOf(utils.getEndDate()));
+        }
 
         //페이지네이션
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));
         model.addAttribute("pagination", pagination);
+
+        log.info("searchFilter = {}", searchFilter);
+        log.info("pagination = {}", pagination);
 
         //게시글 목록
         model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination));
