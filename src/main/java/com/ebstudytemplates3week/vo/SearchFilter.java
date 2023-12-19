@@ -25,4 +25,13 @@ public class SearchFilter {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    /**
+     * 콘솔 Log 확인용
+     * @return SearchFilter
+     */
+    @Override
+    public String toString() {
+        return "SearchFilter [category=" + category + ", searchText=" + searchText + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+    }
 }

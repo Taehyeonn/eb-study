@@ -62,4 +62,13 @@ public class Pagination {
     public int getStartNum() {
         return (pageNum-1) * 10 ;
     }
+
+    /**
+     * 콘솔 log 확인용
+     * @return pageNum, totalCount
+     */
+    @Override
+    public String toString() {
+        return "SearchFilter [pageNum=" + pageNum + ", totalCount=" + totalCount + "]";
+    }
 }

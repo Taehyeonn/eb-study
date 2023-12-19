@@ -38,7 +38,7 @@ public class BoardController {
                           @ModelAttribute("pagination") Pagination pagination,
                           Model model) {
 
-        //검색 필터 셋팅
+        //검색 필터
         SearchFilter searchFilter = boardService.getSearchFilter(sf);
         model.addAttribute("searchFilter", searchFilter);
 
@@ -62,21 +62,25 @@ public class BoardController {
      *
      * @param model
      * @param id      board_id
-     * @param pageNum
      * @return view
      */
     @GetMapping("/view") //todo
     public String getViewInfo(
             Model model,
             @RequestParam("id") String id,
-            @RequestParam("pageNum") String pageNum) {
+            @ModelAttribute("searchFilter") SearchFilter searchFilter,
+            @ModelAttribute("pagination") Pagination pagination) {
+
+        log.info("searchFilter = {}", searchFilter);
+        log.info("pagination = {}", pagination);
 
         boardService.increaseViewCount(id);
 
         model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
         model.addAttribute("id", id); //todo 굳이 필요한지
-        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("searchFilter", searchFilter);
 
         return "view";
     }
@@ -123,18 +127,19 @@ public class BoardController {
      *
      * @param model
      * @param id      board 번호
-     * @param pageNum
      * @return modify
      */
     @GetMapping("/modify")
     public String getModifyInfo(
             Model model,
             @RequestParam("id") String id,
-            @RequestParam("pageNum") String pageNum) {
+            @ModelAttribute("searchFilter") SearchFilter searchFilter,
+            @ModelAttribute("pagination") Pagination pagination) {
 
         model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("id", id); //todo 굳이 필요한지
-        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("searchFilter", searchFilter);
 
         return "modify";
     }
@@ -160,17 +165,18 @@ public class BoardController {
      * 게시글 삭제 폼
      * @param model 모델
      * @param id 삭제할 보드 idx
-     * @param pageNum
      * @return
      */
     @GetMapping("/delete")
     public String deleteForm(
             Model model,
             @RequestParam("id") String id,
-            @RequestParam("pageNum") String pageNum) {
+            @ModelAttribute("searchFilter") SearchFilter searchFilter,
+            @ModelAttribute("pagination") Pagination pagination) {
 
         model.addAttribute("id", id);
-        model.addAttribute("pageNum", pageNum);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("searchFilter", searchFilter);
 
         return "delete";
     }

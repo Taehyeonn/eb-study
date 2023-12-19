@@ -58,10 +58,15 @@
         </form>
     </div>
 </div>
-<div>
-    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pageNum})}'|">목록</button>
-    <button type="button" th:onclick="|location.href='@{/board/free/modify(id=${id}, pageNum=${pageNum})}'|">수정</button>
-    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id}, pageNum=${pageNum})}'|">삭제</button>
+<div th:if="${searchFilter.searchText == null}">
+    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pagination.pageNum})}'|">목록</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/modify(id=${id}, pageNum=${pagination.pageNum})}'|">수정</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id}, pageNum=${pagination.pageNum})}'|">삭제</button>
+</div>
+<div th:unless="${searchFilter.searchText == null}">
+    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">목록</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/modify(id=${id}, pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">수정</button>
+    <button type="button" th:onclick="|location.href='@{/board/free/delete(id=${id}, pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">삭제</button>
 </div>
 </body>
 </html>
