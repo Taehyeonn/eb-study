@@ -17,9 +17,15 @@
             <input type="date" name="endDate" th:value="${#strings.substring(searchFilter.getEndDate(),0,10)}">
         </label>
         <label>
-            <select name="category">
+            <select th:if="${searchFilter.getCategory() == 0}" name="category">
                 <option value="0" selected>전체 카테고리</option>
                 <option th:each="category : ${categoryList}" th:text="${category.getName()}" th:value="${category.getId()}">
+                </option>
+            </select>
+            <select th:unless="${searchFilter.getCategory() == 0}" name="category">
+                <option value="0" selected>전체 카테고리</option>
+                <option th:each="category : ${categoryList}" th:text="${category.getName()}" th:value="${category.getId()}"
+                        th:selected="${searchFilter.getCategory() == category.getId()}">
                 </option>
             </select>
         </label>
