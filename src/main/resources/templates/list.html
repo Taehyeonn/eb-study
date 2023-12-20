@@ -103,7 +103,12 @@
     </nav>
 </div>
 <div class="list_button">
-    <a th:href="@{'write?pageNum='+${pagination.getPageNum()}}">등록 </a>
+    <div th:if="${searchFilter.searchText == null}">
+        <button type="button" th:onclick="|location.href='@{/board/free/write(pageNum=${pagination.pageNum})}'|">등록</button>
+    </div>
+    <div th:unless="${searchFilter.searchText == null}">
+        <button type="button" th:onclick="|location.href='@{/board/free/write(pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">등록</button>
+    </div>
 </div>
 </body>
 </html>

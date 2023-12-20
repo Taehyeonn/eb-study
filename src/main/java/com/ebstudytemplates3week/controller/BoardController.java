@@ -97,18 +97,18 @@ public class BoardController {
     /**
      * 글 작성 페이지 출력
      *
-     * @param pageNum
+     * @param
      * @param model
      * @return write
      */
     @GetMapping("/write")
     public String getWriteInfo(
-            @RequestParam("pageNum") String pageNum, //todo 검색조건이 계속 따라다녀야 한다
+            @ModelAttribute("searchFilter") SearchFilter searchFilter,
+            @ModelAttribute("pagination") Pagination pagination,
             Model model) {
 
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
-        model.addAttribute("pageNum", pageNum);
 
         return "write";
     }

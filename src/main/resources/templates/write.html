@@ -77,7 +77,9 @@
 <!--    <label>파일 첨부:</label>-->
 <!--    <input type="file" name="files"><br>-->
 <!--    <br>-->
-    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pageNum})}'|">취소</button>
+<!--    <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pageNum})}'|">취소</button>-->
+    <button th:if="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pagination.pageNum})}'|">취소</button>
+    <button th:unless="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">취소</button>
     <input type="submit" id="submitButton" value="글쓰기">
 </form>
 </body>
