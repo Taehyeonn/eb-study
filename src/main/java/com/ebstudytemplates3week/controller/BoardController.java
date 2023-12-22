@@ -92,8 +92,6 @@ public class BoardController {
 
         model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("searchFilter", searchFilter);
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
 
 
@@ -103,10 +101,10 @@ public class BoardController {
 
     /**
      * 글 작성 페이지 출력
-     *
-     * @param
-     * @param model
-     * @return write
+     * @param searchFilter 검색 조건
+     * @param pagination 페이지
+     * @param model 모델
+     * @return 글 작성 페이지
      */
     @GetMapping("/write")
     public String getWriteInfo(
@@ -132,11 +130,9 @@ public class BoardController {
             @RequestParam(name = "file", required = false) List<MultipartFile> multipartFiles) throws IOException { //todo 예외처리
 
         boardService.writeBoard(board);
-
         log.info("board ={}", board);
 
         for (MultipartFile file : multipartFiles) {
-
             if (!file.isEmpty()) {
                 fileService.addFile(file, String.valueOf(board.getId()));
             }
@@ -161,8 +157,6 @@ public class BoardController {
             @ModelAttribute("pagination") Pagination pagination) {
 
         model.addAttribute("board", boardService.getBoardById(id));
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("searchFilter", searchFilter);
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
 
         return "modify";
@@ -186,22 +180,14 @@ public class BoardController {
 
     /**
      * 게시글 삭제 페이지에 필요한 정보 출력
-     * @param model 모델
-     * @param id 게시글 번호
      * @param searchFilter 검색 조건
      * @param pagination 페이지
      * @return 삭제 페이지
      */
     @GetMapping("/delete/{id}")
     public String deleteForm(
-            Model model,
-            @PathVariable(name = "id") String id,
             @ModelAttribute("searchFilter") SearchFilter searchFilter,
             @ModelAttribute("pagination") Pagination pagination) {
-
-        model.addAttribute("id", id);
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("searchFilter", searchFilter);
 
         return "delete";
     }
