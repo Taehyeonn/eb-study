@@ -23,6 +23,12 @@ public class FileController {
 
     private final FileService fileService;
 
+    /**
+     * 파일 다운로드
+     * @param id 게시글 번호
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("/{id}")
     public void fileDownload(@PathVariable(name = "id") String id,
                              HttpServletResponse response) throws IOException {
@@ -30,10 +36,10 @@ public class FileController {
         File fileInfo = fileService.getFileInfoByFileId(id); //todo 파일이 없는 경우 예외처리
         log.info("fileInfo ={}", fileInfo);
 
-        String uploadFolder = "/Users/th/Documents/study/eb-study-templates-3week/files/"; //todo 환경변수로 빼기, 폴더분류
+        String uploadPath = "/Users/th/Documents/study/eb-study-templates-3week/files/"+fileInfo.getBoardId()+"/"; //todo 환경변수로 빼기
         String originName = fileInfo.getOriginName();
 
-        String fullPath = uploadFolder + originName;
+        String fullPath = uploadPath + originName;
 
         // 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
         byte[] fileByte = FileUtils.readFileToByteArray(new java.io.File(fullPath));

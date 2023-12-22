@@ -4,8 +4,8 @@
 <mapper namespace="com.ebstudytemplates3week.mapper.FileMapper">
 
     <insert id="addFile">
-        INSERT INTO file (board_id, origin_name, re_name)
-        VALUES (#{boardId}, #{originName}, #{reName})
+        INSERT INTO file (board_id, origin_name, stored_name)
+        VALUES (#{boardId}, #{originName}, #{storedName})
     </insert>
 
     <select id="getFileByBoardId">
