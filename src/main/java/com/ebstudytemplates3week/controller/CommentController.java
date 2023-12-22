@@ -2,13 +2,13 @@ package com.ebstudytemplates3week.controller;
 
 import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.service.CommentService;
+import com.ebstudytemplates3week.vo.Comment;
+import com.ebstudytemplates3week.vo.Pagination;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -21,23 +21,23 @@ public class CommentController {
     private final CommentService commentService;
 
     /**
-     * 댓글 추가
-     * @param pageNum
-     * @param board id, content
-     * @param ra RedirectAttributes
-     * @return redirect:/board/free/view
+     * 댓글 작성
+     * @param boardId 게시글 번호
+     * @param comment 댓글 내용(String content)
+     * @param pagination pageNum
+     * @return view/{게시글 번호}
      */
-    @PostMapping
+    @PostMapping("/{id}")
     public String insertComment(
-            @RequestParam("pageNum") String pageNum,
-            @ModelAttribute("board") Board board,
-            RedirectAttributes ra) {
+            @PathVariable(name = "id") String boardId,
+            @ModelAttribute("comment") Comment comment,
+            @ModelAttribute("pagination") Pagination pagination) {
 
-        commentService.insertComment(board);
+        comment.setBoardId(boardId);
+        commentService.insertComment(comment);
 
-        ra.addAttribute("id", board.getId());
-        ra.addAttribute("pageNum", pageNum);
-
-        return "redirect:/board/free/view";
+        return "redirect:/board/free/view/"+boardId;
     }
+
+
 }

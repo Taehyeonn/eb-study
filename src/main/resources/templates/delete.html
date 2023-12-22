@@ -23,8 +23,8 @@
 <form action method="post" onsubmit="return inputValidCheck()">
     <label for="password">비밀번호:</label>
     <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요.">
-    <button th:if="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pagination.pageNum})}'|">취소</button>
-    <button th:unless="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">취소</button>
+    <button th:if="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view/{id}(id=${id}, pageNum=${pagination.pageNum})}'|">취소</button>
+    <button th:unless="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view/{id}(id=${id}, pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">취소</button>
     <input type="submit" value="확인">
 </form>
 </body>

@@ -27,7 +27,8 @@ public class CommentService {
      * 댓글 작성
      * @param board board_id, content
      */
-    public void insertComment(Board board) {
-        commentMapper.insertComment(board);
+    public void insertComment(Comment comment) {
+//    public void insertComment(Board board) {
+        commentMapper.insertComment(comment);
     }
 }

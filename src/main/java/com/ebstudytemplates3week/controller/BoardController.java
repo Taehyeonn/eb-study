@@ -37,7 +37,7 @@ public class BoardController {
      * @param searchFilter    검색 조건(시작일, 종료일, 카테고리, 키워드)
      * @param pagination    페이지네이션(pageNum)
      * @param model searchFilter, pagination, boardList, categoryList
-     * @return list
+     * @return 목록 페이지
      */
     @GetMapping("/list")
     public String getList(@ModelAttribute("searchFilter") SearchFilter searchFilter,
@@ -72,15 +72,16 @@ public class BoardController {
 
     /**
      * 게시글 상세 조회
-     *
-     * @param model
-     * @param id      board_id
-     * @return view
+     * @param model 모델
+     * @param id 게시글 번호
+     * @param searchFilter 검색 조건
+     * @param pagination 페이지
+     * @return 상세 페이지
      */
-    @GetMapping("/view") //todo
+    @GetMapping("/view/{id}")
     public String getViewInfo(
             Model model,
-            @RequestParam("id") String id,
+            @PathVariable(name = "id") String id,
             @ModelAttribute("searchFilter") SearchFilter searchFilter,
             @ModelAttribute("pagination") Pagination pagination) {
 
@@ -91,7 +92,6 @@ public class BoardController {
 
         model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
-        model.addAttribute("id", id); //todo 굳이 필요한지
         model.addAttribute("pagination", pagination);
         model.addAttribute("searchFilter", searchFilter);
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
@@ -146,21 +146,21 @@ public class BoardController {
     }
 
     /**
-     * 글 작성 폼에 필요한 요소들 출력
-     *
-     * @param model
-     * @param id      board 번호
-     * @return modify
+     * 글 수정 페이지에 필요한 정보 출력
+     * @param model 모델
+     * @param id 게시글 번호
+     * @param searchFilter 검색조건
+     * @param pagination 페이지
+     * @return 수정 페이지
      */
-    @GetMapping("/modify")
+    @GetMapping("/modify/{id}")
     public String getModifyInfo(
             Model model,
-            @RequestParam("id") String id,
+            @PathVariable(name = "id") String id,
             @ModelAttribute("searchFilter") SearchFilter searchFilter,
             @ModelAttribute("pagination") Pagination pagination) {
 
         model.addAttribute("board", boardService.getBoardById(id));
-        model.addAttribute("id", id); //todo 굳이 필요한지
         model.addAttribute("pagination", pagination);
         model.addAttribute("searchFilter", searchFilter);
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
@@ -169,12 +169,11 @@ public class BoardController {
     }
 
     /**
-     * 게시글 수정(비밀번호 검증은 서비스에서)
-     *
-     * @param board writer, title, content
-     * @return redirect:/board/free/list
+     * 게시글 수정
+     * @param board 게시글 정보 writer, title, content
+     * @return 목록
      */
-    @PostMapping("/modify")
+    @PostMapping("/modify/{id}")
     public String modifyBoard(
             @ModelAttribute("board") @Valid Board board) {
 
@@ -186,15 +185,17 @@ public class BoardController {
     }
 
     /**
-     * 게시글 삭제 폼
+     * 게시글 삭제 페이지에 필요한 정보 출력
      * @param model 모델
-     * @param id 삭제할 보드 idx
-     * @return
+     * @param id 게시글 번호
+     * @param searchFilter 검색 조건
+     * @param pagination 페이지
+     * @return 삭제 페이지
      */
-    @GetMapping("/delete")
+    @GetMapping("/delete/{id}")
     public String deleteForm(
             Model model,
-            @RequestParam("id") String id,
+            @PathVariable(name = "id") String id,
             @ModelAttribute("searchFilter") SearchFilter searchFilter,
             @ModelAttribute("pagination") Pagination pagination) {
 
@@ -206,14 +207,14 @@ public class BoardController {
     }
 
     /**
-     * 게시글 삭제(비밀번호 검증은 서비스에서)
-     * @param id
-     * @param password
-     * @return
+     * 게시글 삭제
+     * @param id 게시글 번호
+     * @param password 비밀번호
+     * @return 목록
      */
-    @PostMapping("/delete")
+    @PostMapping("/delete/{id}")
     public String deleteBoard(
-            @RequestParam("id") String id,
+            @PathVariable(name = "id") String id,
             @RequestParam("password") @NotBlank @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{4,16}$"
                     , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.") String password) {
 
@@ -222,10 +223,3 @@ public class BoardController {
         return "redirect:/board/free/list";
     }
 }
-//todo 레이어 별로 일관성있게
-//컨트롤러에서는 주문접수만
-//조리는 서비스
-//역할을 구분하자
-
-//도메인보다는 vo(get set만)
-//싱글페이지(사용자) 멀티페이지(관리자) 두개. 각각의 의도까지

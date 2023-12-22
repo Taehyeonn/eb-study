@@ -11,7 +11,7 @@
 
     <insert id="insertComment">
         INSERT INTO comment (id, board_id, registration_date, content)
-        VALUES (default, #{id}, default, #{content})
+        VALUES (default, #{boardId}, default, #{content})
     </insert>
 
 </mapper>

@@ -20,5 +20,5 @@ public interface CommentMapper {
      * id에 해당하는 댓글 조회
      * @param board id, content
      */
-    void insertComment(Board board);
+    void insertComment(Comment comment);
 }

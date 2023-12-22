@@ -56,10 +56,10 @@
             <tr th:each="board : ${boardList}">
                 <th th:text="${board.categoryName}"></th>
                 <td></td>
-                <td><a th:if="${searchFilter.searchText == ''}" th:href="@{/board/free/view(id=${board.id},pageNum=${pagination.getPageNum()})}"
+                <td><a th:if="${searchFilter.searchText == null}" th:href="@{/board/free/view/{id}(id=${board.id},pageNum=${pagination.getPageNum()})}"
                        th:text="${ #strings.length(board.title) > 80 ? #strings.concat(#strings.substring(board.title,0,80), '...') : board.title}"></a>
-                    <a th:unless="${searchFilter.searchText == ''}"
-                       th:href="@{/board/free/view(id=${board.id},pageNum=${pagination.getPageNum()}, searchText=${searchFilter.searchText}, category=${searchFilter.category}
+                    <a th:unless="${searchFilter.searchText == null}"
+                       th:href="@{/board/free/view/{id}(id=${board.id},pageNum=${pagination.getPageNum()}, searchText=${searchFilter.searchText}, category=${searchFilter.category}
                        , startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}"
                        th:text="${ #strings.length(board.title) > 80 ? #strings.concat(#strings.substring(board.title,0,80), '...') : board.title}"></a>
                 </td>
