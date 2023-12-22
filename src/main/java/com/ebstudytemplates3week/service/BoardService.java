@@ -2,6 +2,7 @@ package com.ebstudytemplates3week.service;
 
 import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.vo.Pagination;
+import com.ebstudytemplates3week.vo.PasswordVerification;
 import com.ebstudytemplates3week.vo.SearchFilter;
 import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.mapper.BoardMapper;
@@ -78,39 +79,27 @@ public class BoardService {
     }
 
     /**
-     * 비밀번호 검증 후 글 수정
+     * 게시글 수정
      * @param board writer, title, content
      */
     public void modifyBoard(Board board) {
-
-        // 비밀번호 검증
-        int passwordCheckResult = boardMapper.passwordCheck(board);
-        if (passwordCheckResult == 1) {
-            boardMapper.modifyBoard(board);
-
-        } else {
-            throw new PasswordMismatchException("Incorrect password");
-        }
+        boardMapper.modifyBoard(board);
     }
 
     /**
-     * 비밀번호 검증 후 게시글 삭제
-     * @param id
-     * @param password
+     * 게시글 삭제
+     * @param id 삭제할 게시글 번호
      */
-    public void deleteBoard(String id, String password) {
+    public void deleteBoard(String id) {
+        boardMapper.deleteBoard(id);
+    }
 
-        Board board = new Board();
-        board.setId(Integer.parseInt(id));
-        board.setPassword(password);
-
-        // 비밀번호 검증
-        int passwordCheckResult = boardMapper.passwordCheck(board);
-        if (passwordCheckResult == 1) {
-            boardMapper.deleteBoard(String.valueOf(board.getId()));
-
-        } else {
-            throw new PasswordMismatchException("Incorrect password");
-        }
+    /**
+     * 게시글과 비밀번호 일치 여부 확인
+     * @param passwordVerification 게시글 번호, 비밀번호
+     * @return 불일치시 0
+     */
+    public int passwordCheck(PasswordVerification passwordVerification) {
+        return boardMapper.passwordCheck(passwordVerification);
     }
 }

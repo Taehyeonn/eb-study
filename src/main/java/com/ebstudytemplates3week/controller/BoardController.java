@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.controller;
 
+import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.service.FileService;
 import com.ebstudytemplates3week.util.Utils;
 import com.ebstudytemplates3week.vo.*;
@@ -163,7 +164,7 @@ public class BoardController {
     }
 
     /**
-     * 게시글 수정
+     * 비밀번호 일치시 게시글 수정
      * @param board 게시글 정보 writer, title, content
      * @return 목록
      */
@@ -173,13 +174,20 @@ public class BoardController {
 
         log.info("board ={}", board);
 
-        boardService.modifyBoard(board); //todo 비밀번호체크는 서비스로 제공되어야 한다. 비즈니스로직의 영역
+        // 비밀번호 검증
+        PasswordVerification passwordVerification = new PasswordVerification(String.valueOf(board.getId()), board.getPassword());
+        if (boardService.passwordCheck(passwordVerification) == 1) {
+            boardService.modifyBoard(board);
+        } else {
+            throw new PasswordMismatchException("Incorrect password");
+        }
 
         return "redirect:/board/free/list";
     }
 
     /**
      * 게시글 삭제 페이지에 필요한 정보 출력
+     * @param id 페이지 번호(view 버튼에 사용)
      * @param searchFilter 검색 조건
      * @param pagination 페이지
      * @return 삭제 페이지
@@ -205,7 +213,12 @@ public class BoardController {
             @RequestParam("password") @NotBlank @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!@#$%^&*])[a-zA-Z\\d!@#$%^&*]{4,16}$"
                     , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.") String password) {
 
-        boardService.deleteBoard(id, password);
+        // 비밀번호 검증
+        if (boardService.passwordCheck(new PasswordVerification(id, password)) == 1) {
+            boardService.deleteBoard(id);
+        } else {
+            throw new PasswordMismatchException("Incorrect password");
+        }
 
         return "redirect:/board/free/list";
     }

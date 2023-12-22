@@ -1,6 +1,7 @@
 package com.ebstudytemplates3week.mapper;
 
 import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.PasswordVerification;
 import com.ebstudytemplates3week.vo.SearchFilter;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -50,15 +51,15 @@ public interface BoardMapper {
     void modifyBoard(Board board);
 
     /**
-     * 비밀번호 일치 여부 확인
-     * @param board id, password
+     * 게시글과 비밀번호 일치 여부 확인
+     * @param passwordVerification id, password
      * @return 불일치시 0
      */
-    int passwordCheck(Board board);
+    int passwordCheck(PasswordVerification passwordVerification);
 
     /**
      * 게시글 삭제
-     * @param id 삭제할 id
+     * @param id 삭제할 게시글 번호
      */
     void deleteBoard(String id);
 }
