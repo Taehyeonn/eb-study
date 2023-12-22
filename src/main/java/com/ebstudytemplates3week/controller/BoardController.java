@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.controller;
 
+import com.ebstudytemplates3week.service.FileService;
 import com.ebstudytemplates3week.util.Utils;
 import com.ebstudytemplates3week.vo.*;
 import com.ebstudytemplates3week.service.BoardService;
@@ -13,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +28,8 @@ public class BoardController {
     private final BoardService boardService;
     private final CategoryService categoryService;
     private final CommentService commentService;
+    private final FileService fileService;
+
 
     /**
      * 검색 조건을 이용해 게시글 목록과 페이지 네비게이션 출력
@@ -89,6 +94,8 @@ public class BoardController {
         model.addAttribute("id", id); //todo 굳이 필요한지
         model.addAttribute("pagination", pagination);
         model.addAttribute("searchFilter", searchFilter);
+        model.addAttribute("fileList", fileService.getFileByBoardId(id));
+
 
         return "view";
     }
@@ -121,11 +128,19 @@ public class BoardController {
      */
     @PostMapping("/write")
     public String writeBoard(
-            @ModelAttribute("board") @Valid Board board) {
+            @ModelAttribute("board") @Valid Board board,
+            @RequestParam(name = "file", required = false) List<MultipartFile> multipartFiles) throws IOException { //todo 예외처리
+
+        boardService.writeBoard(board);
 
         log.info("board ={}", board);
 
-        boardService.writeBoard(board);
+        for (MultipartFile file : multipartFiles) {
+
+            if (!file.isEmpty()) {
+                fileService.addFile(file, String.valueOf(board.getId()));
+            }
+        }
 
         return "redirect:/board/free/list";
     }
@@ -148,6 +163,7 @@ public class BoardController {
         model.addAttribute("id", id); //todo 굳이 필요한지
         model.addAttribute("pagination", pagination);
         model.addAttribute("searchFilter", searchFilter);
+        model.addAttribute("fileList", fileService.getFileByBoardId(id));
 
         return "modify";
     }

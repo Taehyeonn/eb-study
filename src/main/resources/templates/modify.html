@@ -64,9 +64,16 @@
         <label for="content">내용:</label>
         <textarea name="content" id="content" rows="5" th:text="${board[0].content}"></textarea>
         <br>
-<!--        <label for="file">파일 첨부:</label>-->
-<!--        <input type="file" name="file" id="file">-->
-<!--        <br>-->
+        <label>파일 첨부:</label><br>
+        <div th:each="file:${fileList}">
+            <span th:text="${file.getOriginName()}"></span>
+            <button type="button" th:onclick="|location.href='@{'/download/' + ${file.getId()}}'|">Download</button>
+            <button type="button">X</button>
+        </div>
+        <div th:each="i : ${#numbers.sequence(1, 3 - #lists.size(fileList))}">
+            <input type="file" name="file"><br>
+        </div>
+        <br>
         <button th:if="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pagination.pageNum})}'|">취소</button>
         <button th:unless="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view(id=${id}, pageNum=${pagination.pageNum}, searchText=${searchFilter.searchText}, category=${searchFilter.category}, startDate=${#strings.substring(searchFilter.startDate,0,10)}, endDate=${#strings.substring(searchFilter.endDate,0,10)})}'|">취소</button>
         <input type="submit" id="submitButton" value="수정">

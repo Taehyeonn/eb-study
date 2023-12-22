@@ -41,7 +41,16 @@
 <hr>
 <div>
     <p>첨부파일</p>
+    <div th:if="${fileList.isEmpty()}">
+        <p>첨부파일이 없습니다.</p>
+    </div>
+    <div th:unless="${fileList.isEmpty()}" th:each="file:${fileList}">
+        <span>첨부파일</span>
+        <a th:text="${file.getOriginName()}" th:href="@{'/download/' + ${file.getId()}}"></a>
+        <br>
+    </div>
 </div>
+<hr>
 <div style="background-color: beige">
     <div th:if="${commentList.isEmpty()}">
         <p>댓글이 없습니다.</p>

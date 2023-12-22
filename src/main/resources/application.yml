@@ -2,6 +2,15 @@ spring:
   profiles.include:
     - db
 
+
+
+  servlet:
+    multipart:
+      enabled: true #파일 업로드 지원여부
+      max-file-size: 50MB #최대 크기
+      location: /Users/th/Documents/study/eb-study-templates-3week/files/ #위치
+      max-request-size: 50MB #요청의 최대 크기
+
   devtools:
     livereload:
       enabled: true

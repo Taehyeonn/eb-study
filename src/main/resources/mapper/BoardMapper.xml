@@ -47,11 +47,14 @@
         WHERE board.id = #{id}
     </update>
 
-    <insert id="writeBoard">
+    <insert id="writeBoard" >
         INSERT INTO board (
             category_id, writer, password, title, content)
         VALUES (
              #{categoryId}, #{writer}, #{password}, #{title}, #{content});
+        <selectKey keyProperty="id" resultType="int" order="AFTER" >
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="modifyBoard">
