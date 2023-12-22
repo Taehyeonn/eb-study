@@ -82,7 +82,17 @@
         <a th:unless="${pagination.prev}" href="javascript:void(0)">Prev </a>
 
 <!--            페이지 번호-->
-        <span th:each="i : ${#numbers.sequence(pagination.getBeginPage(), pagination.getEndPage())}">
+        <span th:if="${searchFilter.getSearchText() == null}"
+              th:each="i : ${#numbers.sequence(pagination.getBeginPage(), pagination.getEndPage())}">
+            <span th:if="${i == pagination.getPageNum()}" href="javascript:void(0)" th:text="${i}"></span>
+            <a th:unless="${i == pagination.getPageNum()}"
+               th:href="@{'list?pageNum='+${i}}">
+                <span th:text="${i}"></span>
+            </a>
+        </span>
+
+        <span th:unless="${searchFilter.getSearchText() == null}"
+              th:each="i : ${#numbers.sequence(pagination.getBeginPage(), pagination.getEndPage())}">
             <span th:if="${i == pagination.getPageNum()}" href="javascript:void(0)" th:text="${i}"></span>
             <a th:unless="${i == pagination.getPageNum()}"
                th:href="@{'list?pageNum='+${i}
