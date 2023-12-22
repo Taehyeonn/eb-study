@@ -186,6 +186,7 @@ public class BoardController {
      */
     @GetMapping("/delete/{id}")
     public String deleteForm(
+            @PathVariable(name = "id") String id,
             @ModelAttribute("searchFilter") SearchFilter searchFilter,
             @ModelAttribute("pagination") Pagination pagination) {
 
