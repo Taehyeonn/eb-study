@@ -6,7 +6,10 @@
     <select id="getTotalCount" resultType="int">
         SELECT count(*)
         FROM board
-        WHERE registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
+        <where>
+        <if test="startDate != null">
+            AND registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
+        </if>
         <if test="category != 0">
             AND category_id = #{category}
         </if>
@@ -15,13 +18,17 @@
             OR writer LIKE CONCAT('%', #{searchText}, '%')
             OR content LIKE CONCAT('%', #{searchText}, '%'))
         </if>
+        </where>
     </select>
 
     <select id="getBoardList" >
         SELECT board.*, category.name AS category_name
         FROM board
         JOIN category ON board.category_id = category.id
-        WHERE registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
+        <where>
+        <if test="startDate != null">
+            AND registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
+        </if>
         <if test="category != 0">
             AND category_id = #{category}
         </if>
@@ -30,6 +37,7 @@
                 OR writer LIKE CONCAT('%', #{searchText}, '%')
                 OR content LIKE CONCAT('%', #{searchText}, '%'))
         </if>
+        </where>
         ORDER BY registration_date DESC
         LIMIT #{startNum}, #{limit}
     </select>

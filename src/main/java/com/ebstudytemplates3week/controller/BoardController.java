@@ -2,7 +2,6 @@ package com.ebstudytemplates3week.controller;
 
 import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.service.FileService;
-import com.ebstudytemplates3week.util.Utils;
 import com.ebstudytemplates3week.vo.*;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.CategoryService;
@@ -44,14 +43,6 @@ public class BoardController {
     public String getList(@ModelAttribute("searchFilter") SearchFilter searchFilter,
                           @ModelAttribute("pagination") Pagination pagination,
                           Model model) {
-
-        Utils utils = new Utils();
-
-        //검색 필터 set(view에 내려줄 날짜 데이터 set) //todo 디폴트값을 화면단에서
-        if (searchFilter.getStartDate() == null) {
-            searchFilter.setStartDate(String.valueOf(utils.getStartDate()));
-            searchFilter.setEndDate(String.valueOf(utils.getEndDate()));
-        }
 
         //페이지네이션
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));

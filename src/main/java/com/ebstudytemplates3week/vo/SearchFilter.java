@@ -1,13 +1,10 @@
 package com.ebstudytemplates3week.vo;
 
-import com.ebstudytemplates3week.util.Utils;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class SearchFilter {
-
-    Utils utils = new Utils();
 
     private int category;
     private String searchText;

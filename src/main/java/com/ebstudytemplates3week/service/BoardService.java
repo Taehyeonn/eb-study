@@ -4,9 +4,7 @@ import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.vo.Pagination;
 import com.ebstudytemplates3week.vo.PasswordVerification;
 import com.ebstudytemplates3week.vo.SearchFilter;
-import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.mapper.BoardMapper;
-import com.ebstudytemplates3week.util.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

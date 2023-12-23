@@ -10,12 +10,29 @@
     <form action method="get">
         <span>등록일</span>
         <label>
-            <input type="date" name="startDate" th:value="${#strings.substring(searchFilter.getStartDate(),0,10)}">
+            <input type="date" name="startDate" id="startDate" maxlength="10" th:value="${searchFilter.getStartDate()}">
         </label>
         -
         <label>
-            <input type="date" name="endDate" th:value="${#strings.substring(searchFilter.getEndDate(),0,10)}">
+            <input type="date" name="endDate" id="endDate" maxlength="10" th:value="${searchFilter.getEndDate()}">
         </label>
+            <script>
+                // 페이지 로드 시 시작날짜, 종료날짜의 기본값을 설정
+                window.onload = function () {
+
+                    let serverStartDate = document.getElementById('startDate').value;
+                    let serverEndDate = document.getElementById('endDate').value;
+
+                    // 값이 없을 경우 기본값 지정
+                    if (serverStartDate === "" && serverEndDate === "") {
+                        // 시작날짜: 1년 전
+                        document.getElementById('startDate').valueAsDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+
+                        // 종료날짜: 오늘
+                        document.getElementById('endDate').valueAsDate = new Date();
+                    }
+                };
+            </script>
         <label>
             <select th:if="${searchFilter.getCategory() == 0}" name="category">
                 <option value="0" selected>전체 카테고리</option>
