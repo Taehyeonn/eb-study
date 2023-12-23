@@ -47,7 +47,7 @@ public class BoardController {
 
         Utils utils = new Utils();
 
-        //검색 필터 set(view에 내려줄 날짜 데이터 set)
+        //검색 필터 set(view에 내려줄 날짜 데이터 set) //todo 디폴트값을 화면단에서
         if (searchFilter.getStartDate() == null) {
             searchFilter.setStartDate(String.valueOf(utils.getStartDate()));
             searchFilter.setEndDate(String.valueOf(utils.getEndDate()));
@@ -61,7 +61,7 @@ public class BoardController {
         log.info("pagination = {}", pagination);
 
         //게시글 목록
-        model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination));
+        model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination)); //todo 공통되는 쿼리문
 
         //카테고리 목록
         List<Category> categoryList = categoryService.getCategoryList();
@@ -91,7 +91,7 @@ public class BoardController {
 
         boardService.increaseViewCount(id);
 
-        model.addAttribute("board", boardService.getBoardById(id));
+        model.addAttribute("board", boardService.getBoardById(id)); //todo board 이거 왜리스트로받음
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
 
@@ -175,8 +175,8 @@ public class BoardController {
         log.info("board ={}", board);
 
         // 비밀번호 검증
-        PasswordVerification passwordVerification = new PasswordVerification(String.valueOf(board.getId()), board.getPassword());
-        if (boardService.passwordCheck(passwordVerification) == 1) {
+        PasswordVerification passwordVerification = new PasswordVerification(String.valueOf(board.getId()), board.getPassword()); //todo 굳이?
+        if (boardService.passwordCheck(passwordVerification) == 1) { //todo ture/false 메서드명 명확하게
             boardService.modifyBoard(board);
         } else {
             throw new PasswordMismatchException("Incorrect password");

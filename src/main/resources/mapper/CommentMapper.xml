@@ -13,5 +13,5 @@
         INSERT INTO comment (id, board_id, registration_date, content)
         VALUES (default, #{boardId}, default, #{content})
     </insert>
-
+<!--쿼리에서 명시적으로 표시 now()-->
 </mapper>

@@ -37,7 +37,7 @@
     <select id="getBoardById">
         SELECT board.*, category.name AS category_name
         FROM board
-        JOIN category ON board.category_id = category.id
+            JOIN category ON board.category_id = category.id
         WHERE board.id = #{id}
     </select>
 

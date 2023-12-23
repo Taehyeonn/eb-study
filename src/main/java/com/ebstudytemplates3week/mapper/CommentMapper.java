@@ -17,8 +17,8 @@ public interface CommentMapper {
     List<Comment> getCommentByBoardId(String id);
 
     /**
-     * id에 해당하는 댓글 조회
-     * @param board id, content
+     * 댓글 작성
+     * @param comment 게시글번호, 댓글 내용
      */
     void insertComment(Comment comment);
 }

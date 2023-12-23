@@ -13,7 +13,7 @@ public class SearchFilter {
     private String searchText;
     private String startDate; // 검색 시작 날짜
     private String endDate; // 검색 종료 날짜
-    private final String START_TIME = "00:00:00";
+    private final String START_TIME = "00:00:00"; //todo 스네이크는 상수 정의할 때
     private final String END_TIME = "23:59:59";
 
     /**

@@ -25,7 +25,7 @@ public class CommentService {
 
     /**
      * 댓글 작성
-     * @param board board_id, content
+     * @param comment board_id, comment.content
      */
     public void insertComment(Comment comment) {
 //    public void insertComment(Board board) {

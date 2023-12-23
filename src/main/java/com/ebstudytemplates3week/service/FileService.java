@@ -21,7 +21,7 @@ public class FileService {
      * 게시글 번호에 맞춰 파일 추가
      * @param file 첨부파일
      * @param boardId 게시글 번호
-     * @throws IOException
+     * @throws IOException 입출력시 발생되는 오류//todo 예외처리하기
      */
     public void addFile(MultipartFile file, String boardId) throws IOException {
 
@@ -31,13 +31,13 @@ public class FileService {
 
         //폴더가 존재하지 않으면 생성
         if(!uploadFolder.exists()) {
-            uploadFolder.mkdirs();
+            uploadFolder.mkdirs(); //todo
         }
 
         String originName = file.getOriginalFilename();
         log.info("file.getOriginalFilename = {}", originName);  //todo 확장자 분리
 
-        String storedName = boardId + originName;
+        String storedName = boardId + originName; //todo 중복 확인 로직 (난수 발생). 하드에 저장하기 위함
 
         String fullPath = uploadPath + originName;
         file.transferTo(new java.io.File(fullPath));

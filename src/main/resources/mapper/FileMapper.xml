@@ -7,13 +7,13 @@
         INSERT INTO file (board_id, origin_name, stored_name)
         VALUES (#{boardId}, #{originName}, #{storedName})
     </insert>
-
+<!--단수복수확실히-->
     <select id="getFileByBoardId">
         SELECT *
         FROM file
         WHERE board_id = #{boardId}
     </select>
-
+<!--테이블 명 앞에 접두어 붙이기 t_file-->
     <select id="getFileInfoByFileId">
         SELECT *
         FROM file

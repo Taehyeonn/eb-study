@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class PasswordVerification {
-    private String id;
-    private String password;
+    private String id; //게시글 번호
+    private String password; //비밀번호
 
     public PasswordVerification() {
     }
