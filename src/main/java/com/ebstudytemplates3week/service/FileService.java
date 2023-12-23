@@ -5,6 +5,7 @@ import com.ebstudytemplates3week.vo.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,21 +26,24 @@ public class FileService {
      */
     public void addFile(MultipartFile file, String boardId) throws IOException {
 
-        String uploadPath = "/Users/th/Documents/study/eb-study-templates-3week/files/"+boardId+"/"; //todo 환경변수로 빼기
+        String uploadPath = "/Users/th/Documents/study/db/eb/"+boardId+"/"; //todo 환경변수로 빼기
 
         java.io.File uploadFolder = new java.io.File(uploadPath);
 
         //폴더가 존재하지 않으면 생성
         if(!uploadFolder.exists()) {
-            uploadFolder.mkdirs(); //todo
+            boolean mkdirs = uploadFolder.mkdirs();
         }
 
         String originName = file.getOriginalFilename();
         log.info("file.getOriginalFilename = {}", originName);  //todo 확장자 분리
 
-        String storedName = boardId + originName; //todo 중복 확인 로직 (난수 발생). 하드에 저장하기 위함
+        // 저장을 위해 새로운 이름 생성(현시간+난수+확장자)
+        long currentTime = System.currentTimeMillis();
+        int randomNum = (int)(Math.random()*1000000);
+        String storedName = "" + currentTime + randomNum + "." + StringUtils.getFilenameExtension(originName);
 
-        String fullPath = uploadPath + originName;
+        String fullPath = uploadPath + storedName;
         file.transferTo(new java.io.File(fullPath));
 
         File fileParams = new File(boardId, originName, storedName);

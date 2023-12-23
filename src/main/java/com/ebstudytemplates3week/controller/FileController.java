@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +37,10 @@ public class FileController {
         File fileInfo = fileService.getFileInfoByFileId(id); //todo 파일이 없는 경우 예외처리
         log.info("fileInfo ={}", fileInfo);
 
-        String uploadPath = "/Users/th/Documents/study/eb-study-templates-3week/files/"+fileInfo.getBoardId()+"/"; //todo 환경변수로 빼기
+        String uploadPath = "/Users/th/Documents/study/db/eb/"+fileInfo.getBoardId()+"/"; //todo 환경변수로 빼기
         String originName = fileInfo.getOriginName();
 
-        String fullPath = uploadPath + originName;
+        String fullPath = uploadPath + fileInfo.getStoredName();
 
         // 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
         byte[] fileByte = FileUtils.readFileToByteArray(new java.io.File(fullPath));
