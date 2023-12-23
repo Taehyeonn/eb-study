@@ -166,8 +166,7 @@ public class BoardController {
         log.info("board ={}", board);
 
         // 비밀번호 검증
-        PasswordVerification passwordVerification = new PasswordVerification(String.valueOf(board.getId()), board.getPassword()); //todo 굳이?
-        if (boardService.passwordCheck(passwordVerification) == 1) { //todo ture/false 메서드명 명확하게
+        if (boardService.validPassword(String.valueOf(board.getId()), board.getPassword())) {
             boardService.modifyBoard(board);
         } else {
             throw new PasswordMismatchException("Incorrect password");
@@ -205,7 +204,7 @@ public class BoardController {
                     , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.") String password) {
 
         // 비밀번호 검증
-        if (boardService.passwordCheck(new PasswordVerification(id, password)) == 1) {
+        if (boardService.validPassword(id, password)) {
             boardService.deleteBoard(id);
         } else {
             throw new PasswordMismatchException("Incorrect password");

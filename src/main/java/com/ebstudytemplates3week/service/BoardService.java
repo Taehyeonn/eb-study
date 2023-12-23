@@ -2,7 +2,6 @@ package com.ebstudytemplates3week.service;
 
 import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.vo.Pagination;
-import com.ebstudytemplates3week.vo.PasswordVerification;
 import com.ebstudytemplates3week.vo.SearchFilter;
 import com.ebstudytemplates3week.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -94,10 +93,11 @@ public class BoardService {
 
     /**
      * 게시글과 비밀번호 일치 여부 확인
-     * @param passwordVerification 게시글 번호, 비밀번호
-     * @return 불일치시 0
+     * @param id 게시글 번호
+     * @param password 비밀번호
+     * @return 일치시 true 반환
      */
-    public int passwordCheck(PasswordVerification passwordVerification) {
-        return boardMapper.passwordCheck(passwordVerification);
+    public boolean validPassword(String id, String password) {
+        return boardMapper.validPassword(id, password) == 1;
     }
 }

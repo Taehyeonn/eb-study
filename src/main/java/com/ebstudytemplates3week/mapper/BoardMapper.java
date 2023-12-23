@@ -1,9 +1,9 @@
 package com.ebstudytemplates3week.mapper;
 
 import com.ebstudytemplates3week.vo.Board;
-import com.ebstudytemplates3week.vo.PasswordVerification;
 import com.ebstudytemplates3week.vo.SearchFilter;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -52,10 +52,11 @@ public interface BoardMapper {
 
     /**
      * 게시글과 비밀번호 일치 여부 확인
-     * @param passwordVerification id, password
-     * @return 불일치시 0
+     * @param id 게시글 번호
+     * @param password 비밀번호
+     * @return 일치시 1, 불일치시 0
      */
-    int passwordCheck(PasswordVerification passwordVerification);
+    int validPassword(@Param("id") String id, @Param("password") String password);
 
     /**
      * 게시글 삭제

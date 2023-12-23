@@ -69,7 +69,7 @@
             id = #{id}
     </update>
 
-    <select id="passwordCheck" resultType="int">
+    <select id="validPassword" resultType="int">
         SELECT COUNT(*)
         FROM board
         WHERE id = #{id} AND password = #{password}
