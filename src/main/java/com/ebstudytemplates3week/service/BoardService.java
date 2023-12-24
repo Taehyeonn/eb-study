@@ -37,11 +37,11 @@ public class BoardService {
     }
 
     /**
-     * id에 해당하는 게시글 상세 조회
-     * @param id board_id
-     * @return List<Board>
+     * 게시글 단일 조회
+     * @param id 게시글 번호
+     * @return board
      */
-    public List<Board> getBoardById(String id) {
+    public Board getBoardById(String id) {
         return boardMapper.getBoardById(id);
     }
 

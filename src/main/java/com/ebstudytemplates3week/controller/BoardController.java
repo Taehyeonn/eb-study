@@ -82,7 +82,7 @@ public class BoardController {
 
         boardService.increaseViewCount(id);
 
-        model.addAttribute("board", boardService.getBoardById(id)); //todo board 이거 왜리스트로받음
+        model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
         model.addAttribute("fileList", fileService.getFileByBoardId(id));
 

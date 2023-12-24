@@ -24,19 +24,19 @@
 <body>
 <h2>자유게시판 - 보기</h2>
 <div>
-    <span th:text="${board[0].writer}"></span>
-    <span th:text="${#strings.substring(board[0].registrationDate,0,16)}"></span>
-    <span th:text="${board[0].modificationDate != null ? #strings.substring(board[0].modificationDate,0,16) : '-'}"></span>
+    <span th:text="${board.writer}"></span>
+    <span th:text="${#strings.substring(board.registrationDate,0,16)}"></span>
+    <span th:text="${board.modificationDate != null ? #strings.substring(board.modificationDate,0,16) : '-'}"></span>
 </div>
 <hr>
 <div>
-    <span th:text="${board[0].categoryName}"></span>
-    <span th:text="${board[0].title}"></span>
-    <span th:text="${board[0].viewCount}"></span>
+    <span th:text="${board.categoryName}"></span>
+    <span th:text="${board.title}"></span>
+    <span th:text="${board.viewCount}"></span>
 </div>
 <hr>
 <div>
-    <p th:text="${board[0].content}"></p>
+    <p th:text="${board.content}"></p>
 </div>
 <hr>
 <div>
@@ -70,7 +70,6 @@
 <div th:if="${searchFilter.searchText == null}">
     <button type="button" th:onclick="|location.href='@{/board/free/list(pageNum=${pagination.pageNum})}'|">목록</button>
     <button type="button" th:onclick="|location.href='@{/board/free/modify/{id}(id=${id},pageNum=${pagination.pageNum})}'|">수정</button>
-<!--    <button type="button" th:onclick="|location.href='@{/board/free/modify(id=${id}, pageNum=${pagination.pageNum})}'|">수정</button>-->
     <button type="button" th:onclick="|location.href='@{/board/free/delete/{id}(id=${id}, pageNum=${pagination.pageNum})}'|">삭제</button>
 </div>
 <div th:unless="${searchFilter.searchText == null}">

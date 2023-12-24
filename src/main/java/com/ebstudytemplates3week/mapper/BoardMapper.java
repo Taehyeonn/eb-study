@@ -27,11 +27,11 @@ public interface BoardMapper {
     List<Board> getBoardList(@Param("searchFilter") SearchFilter searchFilter, @Param("pagination") Pagination pagination);
 
     /**
-     * id와 매칭되는 게시글 세부 조회
-     * @param id
-     * @return List<Board>
+     * 게시글 단일 조회
+     * @param id 게시글 번호
+     * @return board
      */
-    List<Board> getBoardById(String id);
+    Board getBoardById(String id);
 
     /**
      * id의 조회수 증가
