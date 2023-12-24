@@ -84,7 +84,7 @@ public class BoardController {
 
         model.addAttribute("board", boardService.getBoardById(id));
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
-        model.addAttribute("fileList", fileService.getFileByBoardId(id));
+        model.addAttribute("fileList", fileService.getFilesByBoardId(id));
 
 
         return "view";
@@ -149,7 +149,7 @@ public class BoardController {
             @ModelAttribute("pagination") Pagination pagination) {
 
         model.addAttribute("board", boardService.getBoardById(id));
-        model.addAttribute("fileList", fileService.getFileByBoardId(id));
+        model.addAttribute("fileList", fileService.getFilesByBoardId(id));
 
         return "modify";
     }

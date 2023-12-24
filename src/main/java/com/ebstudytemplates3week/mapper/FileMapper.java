@@ -20,7 +20,7 @@ public interface FileMapper {
      * @param id 게시글 번호
      * @return List<File>(id boardId originName reName);
      */
-    List<File> getFileByBoardId(String id);
+    List<File> getFilesByBoardId(String id);
 
     /**
      * 파일 번호로 단일 조회

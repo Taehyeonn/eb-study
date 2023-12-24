@@ -57,8 +57,8 @@ public class FileService {
      * @param id 게시글 번호
      * @return List<File>
      */
-    public List<File> getFileByBoardId(String id) {
-        return fileMapper.getFileByBoardId(id);
+    public List<File> getFilesByBoardId(String id) {
+        return fileMapper.getFilesByBoardId(id);
     }
 
     /**
