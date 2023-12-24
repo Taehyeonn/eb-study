@@ -69,10 +69,10 @@
             id = #{id}
     </update>
 
-    <select id="validPassword" resultType="int">
-        SELECT COUNT(*)
+    <select id="getPassword">
+        SELECT password
         FROM board
-        WHERE id = #{id} AND password = #{password}
+        WHERE id = #{id}
     </select>
 
     <delete id="deleteBoard">

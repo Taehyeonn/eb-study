@@ -78,12 +78,11 @@ public class BoardService {
     }
 
     /**
-     * 게시글과 비밀번호 일치 여부 확인
+     * 암호화된 비밀번호 조회
      * @param id 게시글 번호
-     * @param password 비밀번호
-     * @return 일치시 true 반환
+     * @return 비밀번호
      */
-    public boolean validPassword(String id, String password) {
-        return boardMapper.validPassword(id, password) == 1;
+    public String getPassword(String id) {
+        return boardMapper.getPassword(id);
     }
 }

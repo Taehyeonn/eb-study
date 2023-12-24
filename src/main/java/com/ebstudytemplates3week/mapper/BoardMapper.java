@@ -52,12 +52,11 @@ public interface BoardMapper {
     void modifyBoard(Board board);
 
     /**
-     * 게시글과 비밀번호 일치 여부 확인
+     * 암호화된 비밀번호 조회
      * @param id 게시글 번호
-     * @param password 비밀번호
-     * @return 일치시 1, 불일치시 0
+     * @return 비밀번호
      */
-    int validPassword(@Param("id") String id, @Param("password") String password);
+    String getPassword(String id);
 
     /**
      * 게시글 삭제

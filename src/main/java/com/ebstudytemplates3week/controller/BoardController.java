@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.controller;
 
+import com.ebstudytemplates3week.Util.BCrypt;
 import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.service.FileService;
 import com.ebstudytemplates3week.vo.*;
@@ -121,9 +122,15 @@ public class BoardController {
             @ModelAttribute("board") @Valid Board board,
             @RequestParam(name = "file", required = false) List<MultipartFile> multipartFiles) throws IOException { //todo 예외처리
 
+        //비밀번호 암호화
+        String encryptedPassword = BCrypt.hashpw(board.getPassword(), BCrypt.gensalt());
+        board.setPassword(encryptedPassword);
+
+        //게시글 작성
         boardService.writeBoard(board);
         log.info("board ={}", board);
 
+        //파일 저장
         for (MultipartFile file : multipartFiles) {
             if (!file.isEmpty()) {
                 fileService.addFile(file, String.valueOf(board.getId()));
@@ -166,10 +173,10 @@ public class BoardController {
         log.info("board ={}", board);
 
         // 비밀번호 검증
-        if (boardService.validPassword(String.valueOf(board.getId()), board.getPassword())) {
+        if (BCrypt.checkpw(board.getPassword(), boardService.getPassword(String.valueOf(board.getId())))) {
             boardService.modifyBoard(board);
         } else {
-            throw new PasswordMismatchException("Incorrect password");
+            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
         }
 
         return "redirect:/board/free/list";
@@ -204,10 +211,10 @@ public class BoardController {
                     , message = "비밀번호는 4글자 이상 16글자 미만, 영문/숫자/특수문자(@#$%^&+=) 포함되어야 합니다.") String password) {
 
         // 비밀번호 검증
-        if (boardService.validPassword(id, password)) {
+        if (BCrypt.checkpw(password, boardService.getPassword(id))) {
             boardService.deleteBoard(id);
         } else {
-            throw new PasswordMismatchException("Incorrect password");
+            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
         }
 
         return "redirect:/board/free/list";

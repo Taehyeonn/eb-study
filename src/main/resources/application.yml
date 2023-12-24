@@ -2,8 +2,6 @@ spring:
   profiles.include:
     - db
 
-
-
   servlet:
     multipart:
       enabled: true #파일 업로드 지원여부
