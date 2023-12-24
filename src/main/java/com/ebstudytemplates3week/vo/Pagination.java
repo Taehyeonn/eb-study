@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Pagination {
+    private static final int PAGE_LIMIT = 10;
 
     //사용자가 선택한 페이지 정보를 담을 변수.
     private int pageNum; //현 페이지 넘버
@@ -14,10 +15,9 @@ public class Pagination {
     private int beginPage; // 네비게이션의 첫번째 페이지
     private int endPage; // 네비게이션의 마지막 페이지
     private int lastPage; // 모든 게시글의 마지막 페이지
+    private int pageLimit = PAGE_LIMIT; // 페이지 네비게이션의 개수 1~10
     private boolean prev;
     private boolean next;
-
-    private final int PAGE_LIMIT = 10; // 페이지 네비게이션 수 1~10
 
     public Pagination() {
         this.pageNum = 1;
@@ -30,9 +30,9 @@ public class Pagination {
      */
     private void calcDataOfPage() {
 
-        beginPage = (pageNum-1) / PAGE_LIMIT * PAGE_LIMIT + 1;
+        beginPage = (pageNum-1) / pageLimit * pageLimit + 1;
 
-        endPage = (int) (Math.ceil(pageNum / (double) PAGE_LIMIT) * PAGE_LIMIT);
+        endPage = (int) (Math.ceil(pageNum / (double) pageLimit) * pageLimit);
 
         lastPage = (int) Math.ceil((double)totalCount / limit);
 
