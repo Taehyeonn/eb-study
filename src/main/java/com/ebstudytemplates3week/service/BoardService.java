@@ -7,9 +7,7 @@ import com.ebstudytemplates3week.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,26 +26,14 @@ public class BoardService {
     }
 
     /**
-     * 게시글 목록 출력에 필요한 파라미터만 추출해서 바인딩
+     * 게시글 리스트 조회
      *
      * @param searchFilter 카테고리, 키워드, 시작일, 종료일
      * @param pagination 페이징 시작 번호, 한 페이지의 게시글 최대 갯수
      * @return 게시글 리스트
      */
     public List<Board> getBoardList(SearchFilter searchFilter, Pagination pagination) {
-
-        Map<String, Object> map = new HashMap<>(); //todo 파라미터 그대로 보내기. map은 너무 자유로워서. 실수방지
-
-        map.put("category", searchFilter.getCategory());
-        map.put("searchText", searchFilter.getSearchText());
-        map.put("startDate", searchFilter.getStartDate());
-        map.put("endDate", searchFilter.getEndDate());
-        map.put("END_TIME", searchFilter.getEND_TIME());
-        map.put("START_TIME", searchFilter.getSTART_TIME());
-        map.put("startNum", pagination.getStartNum());
-        map.put("limit", pagination.getLimit());
-
-        return boardMapper.getBoardList(map);
+        return boardMapper.getBoardList(searchFilter, pagination);
     }
 
     /**

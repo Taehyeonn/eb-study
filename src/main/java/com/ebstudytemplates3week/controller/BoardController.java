@@ -52,7 +52,7 @@ public class BoardController {
         log.info("pagination = {}", pagination);
 
         //게시글 목록
-        model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination)); //todo 공통되는 쿼리문
+        model.addAttribute("boardList", boardService.getBoardList(searchFilter, pagination));
 
         //카테고리 목록
         List<Category> categoryList = categoryService.getCategoryList();

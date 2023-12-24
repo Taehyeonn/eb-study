@@ -1,29 +1,30 @@
 package com.ebstudytemplates3week.mapper;
 
 import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.Pagination;
 import com.ebstudytemplates3week.vo.SearchFilter;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
 
     /**
      * 총 게시글 수 조회
-     * @param searchFilter startDate, endDate, category, searchText
+     * @param searchFilter 검색 조건
      * @return 총 게시글 수
      */
-    int getTotalCount(SearchFilter searchFilter);
+    int getTotalCount(@Param("searchFilter") SearchFilter searchFilter);
 
     /**
      * 게시글 리스트 조회
-     * @param map startDate, endDate, category, searchText, startNum, limit
-     * @return List<Board>
+     * @param searchFilter 검색 조건
+     * @param pagination 페이징
+     * @return 게시글 리스트
      */
-    List<Board> getBoardList(Map<String, Object> map);
+    List<Board> getBoardList(@Param("searchFilter") SearchFilter searchFilter, @Param("pagination") Pagination pagination);
 
     /**
      * id와 매칭되는 게시글 세부 조회

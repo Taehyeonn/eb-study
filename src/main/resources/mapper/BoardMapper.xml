@@ -5,16 +5,16 @@
     
     <sql id="searchConditions">
         <where>
-            <if test="startDate != null">
-                AND registration_date BETWEEN CONCAT(#{startDate}, ' ', #{START_TIME}) AND CONCAT(#{endDate}, ' ', #{END_TIME})
+            <if test="searchFilter.startDate != null">
+                AND registration_date BETWEEN CONCAT(#{searchFilter.startDate}, ' ', #{searchFilter.START_TIME}) AND CONCAT(#{searchFilter.endDate}, ' ', #{searchFilter.END_TIME})
             </if>
-            <if test="category != 0">
-                AND category_id = #{category}
+            <if test="searchFilter.category != 0">
+                AND category_id = #{searchFilter.category}
             </if>
-            <if test="searchText != null">
-                AND (title LIKE CONCAT('%', #{searchText}, '%')
-                OR writer LIKE CONCAT('%', #{searchText}, '%')
-                OR content LIKE CONCAT('%', #{searchText}, '%'))
+            <if test="searchFilter.searchText != null">
+                AND (title LIKE CONCAT('%', #{searchFilter.searchText}, '%')
+                OR writer LIKE CONCAT('%', #{searchFilter.searchText}, '%')
+                OR content LIKE CONCAT('%', #{searchFilter.searchText}, '%'))
             </if>
         </where>
     </sql>
@@ -31,7 +31,7 @@
             JOIN category ON board.category_id = category.id
         <include refid="searchConditions"/>
         ORDER BY registration_date DESC
-        LIMIT #{startNum}, #{limit}
+        LIMIT #{pagination.startNum}, #{pagination.limit}
     </select>
 
     <select id="getBoardById">
