@@ -29,4 +29,17 @@ public interface FileMapper {
      */
     File getFileInfoByFileId(String id);
 
+    /**
+     * 게시글 번호에 해당하는 파일 id 모두 조회
+     * @param id 게시글 번호
+     * @return file.id
+     */
+    List<String> getFileIdsByBoardId(String id);
+
+    /**
+     * 파일 번호에 해당하는 파일 삭제
+     * @param id 파일 번호
+     */
+    void deleteFile(String id);
+
 }

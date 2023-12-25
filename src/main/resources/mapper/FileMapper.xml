@@ -4,14 +4,20 @@
 <mapper namespace="com.ebstudytemplates3week.mapper.FileMapper">
 
     <insert id="addFile">
-        INSERT INTO file (board_id, origin_name, stored_name)
-        VALUES (#{boardId}, #{originName}, #{storedName})
+        INSERT INTO file (board_id, origin_name, stored_name, size)
+        VALUES (#{boardId}, #{originName}, #{storedName}, ${size})
     </insert>
 
     <select id="getFilesByBoardId">
         SELECT *
         FROM file
-        WHERE board_id = #{boardId}
+        WHERE board_id = #{id}
+    </select>
+
+    <select id="getFileIdsByBoardId">
+        SELECT id
+        FROM file
+        WHERE board_id = #{id}
     </select>
 
     <select id="getFileInfoByFileId">
@@ -20,4 +26,9 @@
         WHERE id = #{id}
     </select>
 
+    <delete id="deleteFile">
+        DELETE
+        FROM file
+        WHERE id = #{id}
+    </delete>
 </mapper>

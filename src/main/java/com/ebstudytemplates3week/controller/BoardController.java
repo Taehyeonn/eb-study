@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -87,7 +88,6 @@ public class BoardController {
         model.addAttribute("commentList", commentService.getCommentByBoardId(id));
         model.addAttribute("fileList", fileService.getFilesByBoardId(id));
 
-
         return "view";
     }
     //todo: 잘못된 id,pageNum 예외처리
@@ -130,12 +130,19 @@ public class BoardController {
         boardService.writeBoard(board);
         log.info("board ={}", board);
 
-        //파일 저장
-        for (MultipartFile file : multipartFiles) {
-            if (!file.isEmpty()) {
-                fileService.addFile(file, String.valueOf(board.getId()));
-            }
+        // 파일 저장
+        if (multipartFiles!=null) {
+            fileService.addFiles(multipartFiles, String.valueOf(board.getId()));
         }
+//        //파일 저장
+//        for (MultipartFile file : multipartFiles) {
+//            if (!file.isEmpty()) {
+//                log.info("================");
+//                log.info("업로드 파일명" + file.getOriginalFilename());
+//                log.info("업로드 파일크기" + file.getSize());
+//                fileService.addFile(file, String.valueOf(board.getId()));
+//            }
+//        }
 
         return "redirect:/board/free/list";
     }
@@ -168,15 +175,36 @@ public class BoardController {
      */
     @PostMapping("/modify/{id}")
     public String modifyBoard(
-            @ModelAttribute("board") @Valid Board board) {
+            @ModelAttribute("board") @Valid Board board,
+            @RequestParam(name = "fileId", required = false) List<String> fileIds,
+            @RequestParam(name = "newFile", required = false) List<MultipartFile> newMultipartFiles) throws IOException {
 
         log.info("board ={}", board);
+        log.info("fileIds ={}", fileIds);
+        log.info("newMultipartFiles ={}", newMultipartFiles);
 
         // 비밀번호 검증
         if (BCrypt.checkpw(board.getPassword(), boardService.getPassword(String.valueOf(board.getId())))) {
             boardService.modifyBoard(board);
         } else {
             throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+        }
+
+        List<String> storedFileIds = fileService.getFileIdsByBoardId(String.valueOf(board.getId()));
+        List<String> deletedFileIds = fileService.getDeletedFileIds(fileIds, storedFileIds);
+
+        for (String fileId : deletedFileIds) {
+            if (!fileId.isEmpty()) {
+                log.info("================");
+                log.info("삭제할 파일 번호: ={}", fileId);
+                File file = fileService.getFileInfoByFileId(fileId);
+                fileService.deleteFile(file);
+            }
+        }
+
+        // 파일 저장
+        if (newMultipartFiles!=null) {
+            fileService.addFiles(newMultipartFiles, String.valueOf(board.getId()));
         }
 
         return "redirect:/board/free/list";

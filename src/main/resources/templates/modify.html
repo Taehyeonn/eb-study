@@ -34,12 +34,33 @@
 
             return true;
         }
+
+        function deleteBtn(num) {
+
+            // input 제거
+            let hiddenInput = document.getElementById('hidden' + num);
+            if (hiddenInput) {
+                hiddenInput.parentNode.removeChild(hiddenInput);
+            }
+
+            // 파일명 제거
+            let spanElement = document.getElementById('span' + num);
+            if (spanElement) {
+                spanElement.innerText = '';
+            }
+
+            // 다운로드 버튼 제거
+            let buttonToDelete = document.getElementById('btn' + num);
+            if (buttonToDelete) {
+                buttonToDelete.parentNode.removeChild(buttonToDelete);
+            }
+        }
     </script>
 </head>
 <body>
 <h2>자유게시판 - 수정</h2>
 <div>
-    <form action method="post" onsubmit="return inputValidCheck()">
+    <form action method="post" enctype="multipart/form-data" onsubmit="return inputValidCheck()">
         <span>카테고리:</span>
         <span th:text="${board.categoryName}"></span>
         <br>
@@ -66,12 +87,13 @@
         <br>
         <label>파일 첨부:</label><br>
         <div th:each="file:${fileList}">
-            <span th:text="${file.getOriginName()}"></span>
-            <button type="button" th:onclick="|location.href='@{'/download/' + ${file.getId()}}'|">Download</button>
-            <button type="button">X</button>
+            <span th:text="${file.getOriginName()}" th:id="'span'+${file.getId()}"></span>
+            <button type="button" th:id="'btn'+${file.getId()}" th:onclick="|location.href='@{'/download/' + ${file.getId()}}'|">Download</button>
+            <button type="button" th:onclick="'deleteBtn(\'' + ${file.getId()} + '\')'">X</button>
+            <input type="hidden" th:id="'hidden'+${file.getId()}" name="fileId" th:value="${file.getId()}"/>
         </div>
-        <div th:each="i : ${#numbers.sequence(1, 3 - #lists.size(fileList))}">
-            <input type="file" name="file"><br>
+        <div th:unless="${#lists.size(fileList) == 3}" th:each="i : ${#numbers.sequence(1, 3 - #lists.size(fileList))}">
+            <input type="file" name="newFile"><br>
         </div>
         <br>
         <button th:if="${searchFilter.searchText == null}" type="button" th:onclick="|location.href='@{/board/free/view/{id}(id=${id}, pageNum=${pagination.pageNum})}'|">취소</button>
