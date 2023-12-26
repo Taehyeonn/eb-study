@@ -187,7 +187,7 @@ public class BoardController {
         if (BCrypt.checkpw(board.getPassword(), boardService.getPassword(String.valueOf(board.getId())))) {
             boardService.modifyBoard(board);
         } else {
-            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordMismatchException();
         }
 
         List<String> storedFileIds = fileService.getFileIdsByBoardId(String.valueOf(board.getId()));
@@ -242,7 +242,7 @@ public class BoardController {
         if (BCrypt.checkpw(password, boardService.getPassword(id))) {
             boardService.deleteBoard(id);
         } else {
-            throw new PasswordMismatchException("비밀번호가 일치하지 않습니다.");
+            throw new PasswordMismatchException();
         }
 
         return "redirect:/board/free/list";

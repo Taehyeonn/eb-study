@@ -1,5 +1,6 @@
 package com.ebstudytemplates3week.service;
 
+import com.ebstudytemplates3week.exception.EntityNotFoundException;
 import com.ebstudytemplates3week.vo.Board;
 import com.ebstudytemplates3week.vo.Pagination;
 import com.ebstudytemplates3week.vo.SearchFilter;
@@ -29,7 +30,7 @@ public class BoardService {
      * 게시글 리스트 조회
      *
      * @param searchFilter 카테고리, 키워드, 시작일, 종료일
-     * @param pagination 페이징 시작 번호, 한 페이지의 게시글 최대 갯수
+     * @param pagination   페이징 시작 번호, 한 페이지의 게시글 최대 갯수
      * @return 게시글 리스트
      */
     public List<Board> getBoardList(SearchFilter searchFilter, Pagination pagination) {
@@ -38,15 +39,28 @@ public class BoardService {
 
     /**
      * 게시글 단일 조회
+     *
      * @param id 게시글 번호
      * @return board
      */
     public Board getBoardById(String id) {
-        return boardMapper.getBoardById(id);
+        // BoardMapper에서 id에 해당하는 Board를 가져오기
+        Board board = boardMapper.getBoardById(id);
+
+        // 가져온 Board가 null인 경우 예외 던지기
+        if (board == null) {
+            throw new EntityNotFoundException();
+        }
+
+        return board;
     }
+//    public Board getBoardById(String id) {
+//        return boardMapper.getBoardById(id);
+//    }
 
     /**
      * id에 해당하는 조회수 증가
+     *
      * @param id board_id
      */
     public void increaseViewCount(String id) {
@@ -55,6 +69,7 @@ public class BoardService {
 
     /**
      * 입력받은 board 파라미터를 이용해 게시글 작성
+     *
      * @param board category_id, writer, password, title, content
      */
     public void writeBoard(Board board) {
@@ -63,6 +78,7 @@ public class BoardService {
 
     /**
      * 게시글 수정
+     *
      * @param board writer, title, content
      */
     public void modifyBoard(Board board) {
@@ -71,6 +87,7 @@ public class BoardService {
 
     /**
      * 게시글 삭제
+     *
      * @param id 삭제할 게시글 번호
      */
     public void deleteBoard(String id) {
@@ -79,6 +96,7 @@ public class BoardService {
 
     /**
      * 암호화된 비밀번호 조회
+     *
      * @param id 게시글 번호
      * @return 비밀번호
      */
