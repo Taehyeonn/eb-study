@@ -8,26 +8,31 @@ import java.util.List;
 public class ResponseService {
 
     /**
-     * SingleResponse로 바꿔서 출력한다.
-     * @param data <T>로 바꿀 데이터
-     * @param <T>
+     * @param data 데이터
+     * @param <T> 제네릭
+     */
+
+    /**
+     * response로 감싸서 출력한다.
+     * @param data 데이터
+     * @return singleResponse
+     * @param <T> 제네릭
      */
     public <T> SingleResponse<T> getSingleResponse(T data) {
-        SingleResponse singleResponse = new SingleResponse();
+        SingleResponse<T> singleResponse = new SingleResponse<>();
         singleResponse.data = data;
         setSuccessResponse(singleResponse);
-
         return singleResponse;
     }
 
     /**
-     * ListResponse 로 바꿔서 출력한다.
-     * @param dataList 바꿀 데이터
-     * @return List<T>
-     * @param <T>
+     * response로 감싸서 출력한다.
+     * @param dataList <List>데이터
+     * @return listResponse
+     * @param <T> 제네릭
      */
     public <T> ListResponse<T> getListResponse(List<T> dataList) {
-        ListResponse listResponse = new ListResponse();
+        ListResponse<T> listResponse = new ListResponse<>();
         listResponse.dataList = dataList;
         setSuccessResponse(listResponse);
 
@@ -37,9 +42,14 @@ public class ResponseService {
     /**
      * 데이터 뿌릴때 같이 들어갈 요소들
      * @param response boolean success, int code, String message
+     * {
+     *     "success": true,
+     *     "code": 200,
+     *     "message": SUCCESS
+     * }
      */
     void setSuccessResponse(CommonResponse response) {
-        response.code = 0;
+        response.code = 200;
         response.success = true;
         response.message = "SUCCESS";
     }
