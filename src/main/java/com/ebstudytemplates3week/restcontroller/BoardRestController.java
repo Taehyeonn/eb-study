@@ -3,6 +3,7 @@ package com.ebstudytemplates3week.restcontroller;
 import com.ebstudytemplates3week.Response.ResponseService;
 import com.ebstudytemplates3week.Response.SingleResponse;
 import com.ebstudytemplates3week.service.BoardService;
+import com.ebstudytemplates3week.service.CategoryService;
 import com.ebstudytemplates3week.vo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class BoardRestController {
 
     private final BoardService boardService;
     private final ResponseService responseService;
+    private final CategoryService categoryService;
 
     @GetMapping("/list")
     public SingleResponse<BoardListResponse> getBoardList(
@@ -25,14 +27,12 @@ public class BoardRestController {
         //페이지네이션
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));
 
-        //Search에서
-//        //카테고리 목록
-//        List<Category> categoryList = categoryService.getCategoryList();
-
+        //게시글 목록
         List<Board> boards = boardService.getBoardList(searchFilter, pagination);
 
-        BoardListResponse boardListResponse = new BoardListResponse(boards, pagination);
+        //카테고리 목록
+        List<Category> categoryList = categoryService.getCategoryList();
 
-        return responseService.getSingleResponse(boardListResponse);
+        return responseService.getSingleResponse(new BoardListResponse(boards, pagination, categoryList, searchFilter));
     }
 }
