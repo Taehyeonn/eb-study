@@ -11,4 +11,12 @@ public class Comment {
     private String boardId; //FK
     private String content;
     private Timestamp registrationDate;
+
+    public Comment() {
+    }
+
+    public Comment(String boardId, String content) {
+        this.boardId = boardId;
+        this.content = content;
+    }
 }
