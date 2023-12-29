@@ -19,8 +19,8 @@ public class CommentService {
      * @param id
      * @return List<Comment>
      */
-    public List<Comment> getCommentByBoardId(String id) {
-        return commentMapper.getCommentByBoardId(id);
+    public List<Comment> getCommentsByBoardId(String id) {
+        return commentMapper.getCommentsByBoardId(id);
     }
 
     /**

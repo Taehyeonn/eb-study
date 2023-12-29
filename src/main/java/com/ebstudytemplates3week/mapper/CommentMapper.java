@@ -14,7 +14,7 @@ public interface CommentMapper {
      * @param id
      * @return List<Comment>
      */
-    List<Comment> getCommentByBoardId(String id);
+    List<Comment> getCommentsByBoardId(String id);
 
     /**
      * 댓글 작성

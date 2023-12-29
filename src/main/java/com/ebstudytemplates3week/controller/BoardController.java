@@ -85,7 +85,7 @@ public class BoardController {
         boardService.increaseViewCount(id);
 
         model.addAttribute("board", boardService.getBoardById(id));
-        model.addAttribute("commentList", commentService.getCommentByBoardId(id));
+        model.addAttribute("commentList", commentService.getCommentsByBoardId(id));
         model.addAttribute("fileList", fileService.getFilesByBoardId(id));
 
         return "view";

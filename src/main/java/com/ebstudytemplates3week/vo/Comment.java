@@ -2,10 +2,11 @@ package com.ebstudytemplates3week.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class Comment {
     private int id; //PK
     private String boardId; //FK
