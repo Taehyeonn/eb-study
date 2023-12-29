@@ -36,7 +36,7 @@ public class CommentRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body("{\"boardId\": \"" + boardId + "\"}");
     }
 
-    @GetMapping("/comment/{id}")
+    @GetMapping("/comments/{id}")
     public ListResponse<Comment> getComments(
             @PathVariable(name = "id") String boardId) {
 
@@ -45,8 +45,8 @@ public class CommentRestController {
         return responseService.getListResponse(comments);
     }
 
-    @PostMapping("/comment/{id}")
-    public ResponseEntity<String> posttComment(
+    @PostMapping("/comments/{id}")
+    public ResponseEntity<String> postComment(
             @PathVariable(name = "id") String boardId,
             @RequestBody CommentResponse commentResponse) {
 
