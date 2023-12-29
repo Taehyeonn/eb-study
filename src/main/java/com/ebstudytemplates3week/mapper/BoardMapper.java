@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
@@ -31,7 +32,7 @@ public interface BoardMapper {
      * @param id 게시글 번호
      * @return board
      */
-    Board getBoardById(String id);
+    Optional<Board> getBoardById(String id);
 
     /**
      * id의 조회수 증가

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,24 +40,16 @@ public class BoardService {
 
     /**
      * 게시글 단일 조회
+     * 만약 게시글 번호와 일치하는 데이터가 없다면 EntityNotFoundException 예외 발생
      *
      * @param id 게시글 번호
      * @return board
      */
     public Board getBoardById(String id) {
-        // BoardMapper에서 id에 해당하는 Board를 가져오기
-        Board board = boardMapper.getBoardById(id);
-
-        // 가져온 Board가 null인 경우 예외 던지기
-        if (board == null) {
-            throw new EntityNotFoundException();
-        }
-
-        return board;
+        return boardMapper.getBoardById(id)
+                .orElseThrow(EntityNotFoundException::new);
     }
-//    public Board getBoardById(String id) {
-//        return boardMapper.getBoardById(id);
-//    }
+
 
     /**
      * id에 해당하는 조회수 증가
