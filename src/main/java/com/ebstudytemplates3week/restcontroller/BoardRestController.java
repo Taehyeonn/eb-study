@@ -85,31 +85,48 @@ public class BoardRestController {
     }
 
 //    @PostMapping(path = "/write", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    @PostMapping("/write")
-    public ResponseEntity<String> writeBoard(
-            @RequestBody @Valid Board board,
-//            @RequestParam(name = "files", required = false) MultipartFile[] multipartFiles
-//            @RequestPart(name = "board") Board board,
-//            @RequestPart(name = "files", required = false) List<MultipartFile> multipartFiles,
-//            @RequestBody(required = false) List<MultipartFile> multipartFiles,
-//            @RequestBody Map<String, String> data,
-            @ModelAttribute("pagination") Pagination pagination
-            ) throws IOException {
+//    @PostMapping("/write")
+//    public ResponseEntity<String> writeBoard(
+//            @RequestBody @Valid Board board,
+////            @RequestParam(name = "files", required = false) MultipartFile[] multipartFiles
+////            @RequestPart(name = "board") Board board,
+////            @RequestPart(name = "files", required = false) List<MultipartFile> multipartFiles,
+////            @RequestBody(required = false) List<MultipartFile> multipartFiles,
+////            @RequestBody Map<String, String> data,
+//            @ModelAttribute("pagination") Pagination pagination
+//            ) throws IOException {
+//
+//
+//        //비밀번호 암호화
+//        board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
+//
+//        //게시글 작성
+//        boardService.writeBoard(board);
+//        log.info("board ={}", board);
+//
+////        // 파일 저장
+////        if (multipartFiles!=null) {
+////            fileService.addFiles(multipartFiles, String.valueOf(board.getId()));
+////        }
+//
+//        // 성공적으로 댓글이 등록되었다는 JSON 응답을 클라이언트에게 전송
+//        return ResponseEntity.status(HttpStatus.CREATED).body("{\"boardId\": \"" + "board.getId()" + "\"}");
+//    }
 
+    /**
+     * 글 작성 메서드
+     * @param board 게시글 구성 요소
+     * @return HttpStatus.CREATED
+     */
+    @PostMapping("/boards")
+    public ResponseEntity<String> writeBoard(@RequestBody @Valid Board board) {
 
         //비밀번호 암호화
         board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
 
         //게시글 작성
         boardService.writeBoard(board);
-        log.info("board ={}", board);
 
-//        // 파일 저장
-//        if (multipartFiles!=null) {
-//            fileService.addFiles(multipartFiles, String.valueOf(board.getId()));
-//        }
-
-        // 성공적으로 댓글이 등록되었다는 JSON 응답을 클라이언트에게 전송
-        return ResponseEntity.status(HttpStatus.CREATED).body("{\"boardId\": \"" + "board.getId()" + "\"}");
+        return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 }
