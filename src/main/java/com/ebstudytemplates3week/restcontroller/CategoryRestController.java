@@ -20,7 +20,7 @@ public class CategoryRestController {
     private final ResponseService responseService;
 
     /**
-     * 카테고리 조회
+     * 모든 카테고리 조회
      * @return ListResponse<Category>
      */
     @GetMapping("/categories")

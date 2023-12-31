@@ -72,4 +72,4 @@ public class ResponseService {
         commonResponse.message = message;
         return commonResponse;
     }
-}
+}//todo 성공일때는 데이터만 실패일때는
