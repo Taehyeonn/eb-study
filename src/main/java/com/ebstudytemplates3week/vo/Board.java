@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 
@@ -36,4 +37,7 @@ public class Board {
     private Timestamp modificationDate; //수정날짜
     private String categoryName; //카테고리명(join)
     // todo: Timestamp type
+
+    private String confirmPassword;
+    private MultipartFile[] files;
 }

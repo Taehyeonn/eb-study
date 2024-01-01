@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -57,11 +58,11 @@ public class BoardRestController {
      * @param id 게시글 번호
      * @return ResponseEntity<Board>
      */
-    @GetMapping("/board/{id}")
+    @GetMapping("/boards/{id}")
     public ResponseEntity<Board> getBoard(
             @PathVariable(name = "id") String id) {
 
-        //게시글 조회(null 일경우 서비스에서 EntityNotFoundException 예외 발생)
+        //게시글 조회(리턴 값이 null 일경우 서비스에서 EntityNotFoundException 예외 던짐)
         Board board = boardService.getBoardById(id);
 
         //조회수 증가
@@ -76,8 +77,8 @@ public class BoardRestController {
      * @param board 게시글 구성 요소
      * @return HttpStatus.CREATED
      */
-    @PostMapping("/boards")
-    public ResponseEntity<String> writeBoard(@RequestBody @Valid Board board) {
+    @PostMapping(value = "/boards", consumes = "multipart/form-data")
+    public ResponseEntity<String> writeBoard(Board board) throws IOException {
 
         //비밀번호 암호화
         board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
@@ -85,53 +86,11 @@ public class BoardRestController {
         //게시글 작성
         boardService.writeBoard(board);
 
+        //파일 저장
+        if (board.getFiles() != null) {
+            fileService.addFiles(board.getFiles(), String.valueOf(board.getId()));
+        }
+
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
-
-
-
-
-
-//    @GetMapping("/write")
-//    public ListResponse<Category> getWriteInfo(
-////            @ModelAttribute("searchFilter") SearchFilter searchFilter,
-////            @ModelAttribute("pagination") Pagination pagination
-//            ) {
-//
-//        // 카테고리 리스트 조회
-//        List<Category> categoryList = categoryService.getCategoryList();
-//
-//        return responseService.getListResponse(categoryList);
-//    }
-
-//    @PostMapping(path = "/write", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-//    @PostMapping("/write")
-//    public ResponseEntity<String> writeBoard(
-//            @RequestBody @Valid Board board,
-////            @RequestParam(name = "files", required = false) MultipartFile[] multipartFiles
-////            @RequestPart(name = "board") Board board,
-////            @RequestPart(name = "files", required = false) List<MultipartFile> multipartFiles,
-////            @RequestBody(required = false) List<MultipartFile> multipartFiles,
-////            @RequestBody Map<String, String> data,
-//            @ModelAttribute("pagination") Pagination pagination
-//            ) throws IOException {
-//
-//
-//        //비밀번호 암호화
-//        board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
-//
-//        //게시글 작성
-//        boardService.writeBoard(board);
-//        log.info("board ={}", board);
-//
-////        // 파일 저장
-////        if (multipartFiles!=null) {
-////            fileService.addFiles(multipartFiles, String.valueOf(board.getId()));
-////        }
-//
-//        // 성공적으로 댓글이 등록되었다는 JSON 응답을 클라이언트에게 전송
-//        return ResponseEntity.status(HttpStatus.CREATED).body("{\"boardId\": \"" + "board.getId()" + "\"}");
-//    }
-
-
 }
