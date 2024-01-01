@@ -53,17 +53,13 @@ public class BoardRestController {
     }
 
     /**
-     * 게시글 번호에 해당하는 게시글 내용과 댓글, 파일 리스트를 출력 (API 분리 예정)
+     * 게시글 단일 조회
      * @param id 게시글 번호
-     * @param searchFilter 검색조건
-     * @param pagination 페이지네이션
-     * @return ViewInfoResponse(board, commentList, fileList)
+     * @return ResponseEntity<Board>
      */
-    @GetMapping("/view/{id}")
-    public SingleResponse<ViewInfoResponse> getViewInfo(
-            @PathVariable(name = "id") String id,
-            @ModelAttribute("searchFilter") SearchFilter searchFilter,
-            @ModelAttribute("pagination") Pagination pagination) {
+    @GetMapping("/board/{id}")
+    public ResponseEntity<Board> getBoard(
+            @PathVariable(name = "id") String id) {
 
         //게시글 조회(null 일경우 서비스에서 EntityNotFoundException 예외 발생)
         Board board = boardService.getBoardById(id);
@@ -71,13 +67,7 @@ public class BoardRestController {
         //조회수 증가
         boardService.increaseViewCount(id);
 
-        //댓글 리스트 조회 (분리 예정)
-        List<Comment> commentList = commentService.getCommentsByBoardId(id);
-
-        //파일 리스트 조회 (분리 예정)
-        List<File> fileList = fileService.getFilesByBoardId(id);
-
-        return responseService.getSingleResponse(new ViewInfoResponse(board, commentList, fileList));
+        return ResponseEntity.ok(board);
     }
 
     /**
@@ -97,6 +87,8 @@ public class BoardRestController {
 
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
+
+
 
 
 
