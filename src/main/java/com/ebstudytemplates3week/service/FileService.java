@@ -60,8 +60,48 @@ public class FileService {
 
             }
         }
+    }
 
+    /**
+     * 파일 저장(API 용으로 오버로딩)
+     * @param multipartFile
+     * @param boardId
+     * @throws IOException
+     */
+    public void addFiles(MultipartFile[] multipartFile, String boardId) throws IOException {
 
+        String uploadPath = "/Users/th/Documents/study/db/eb/"+boardId+"/"; //todo 환경변수로 빼기
+        java.io.File uploadFolder = new java.io.File(uploadPath);
+
+        //폴더가 존재하지 않으면 생성
+        if(!uploadFolder.exists()) {
+            if (uploadFolder.mkdirs()) {
+                log.info("폴더 생성 완료");
+            }
+        }
+
+        for (MultipartFile file : multipartFile) {
+            if (!file.isEmpty()) {
+                log.info("================");
+                log.info("업로드 파일명" + file.getOriginalFilename());
+                log.info("업로드 파일크기" + file.getSize());
+
+                String originName = file.getOriginalFilename();
+
+                // 저장을 위해 새로운 이름 생성(현시간+난수+확장자)
+                long currentTime = System.currentTimeMillis();
+                String storedName = "" + currentTime + (int)(Math.random()*1000000) + "." + StringUtils.getFilenameExtension(originName);
+
+                String fullPath = uploadPath + storedName;
+                file.transferTo(new java.io.File(fullPath));
+
+                File fileParams = new File(boardId, originName, storedName, file.getSize());
+                log.info("fileParams = {}", fileParams);
+
+                fileMapper.addFile(fileParams);
+
+            }
+        }
     }
 
     /**
