@@ -4,8 +4,6 @@ import com.ebstudytemplates3week.Response.ResponseService;
 import com.ebstudytemplates3week.Response.SingleResponse;
 import com.ebstudytemplates3week.Util.BCrypt;
 import com.ebstudytemplates3week.service.BoardService;
-import com.ebstudytemplates3week.service.CategoryService;
-import com.ebstudytemplates3week.service.CommentService;
 import com.ebstudytemplates3week.service.FileService;
 import com.ebstudytemplates3week.vo.*;
 import jakarta.validation.Valid;
@@ -25,33 +23,7 @@ import java.util.List;
 public class BoardRestController {
 
     private final BoardService boardService;
-    private final ResponseService responseService;
-    private final CategoryService categoryService;
-    private final CommentService commentService;
     private final FileService fileService;
-
-    /**
-     * 검색조건과 페이지를 받아서 게시글 리스트, 페이지, 카테고리, 검색조건을 묶은 SingleResponse 반환 (API 분리 예정)
-     * @param searchFilter 검색조건
-     * @param pagination 페이징
-     * @return BoardListResponse(boards, pagination, categoryList, searchFilter)
-     */
-    @GetMapping("/list")
-    public SingleResponse<BoardListResponse> getBoardList(
-            @ModelAttribute("searchFilter") SearchFilter searchFilter,
-            @ModelAttribute("pagination") Pagination pagination) {
-
-        //페이지네이션
-        pagination.setTotalCount(boardService.getTotalCount(searchFilter));
-
-        //게시글 목록
-        List<Board> boards = boardService.getBoardList(searchFilter, pagination);
-
-        //카테고리 목록
-        List<Category> categoryList = categoryService.getCategoryList();
-
-        return responseService.getSingleResponse(new BoardListResponse(boards, pagination, categoryList, searchFilter));
-    }
 
     /**
      * 게시글 단일 조회
@@ -92,5 +64,18 @@ public class BoardRestController {
         }
 
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/boards")
+    public ResponseEntity<BoardListResponse> getBoards(@ModelAttribute("searchFilter") SearchFilter searchFilter,
+                                            @ModelAttribute("pagination") Pagination pagination) {
+
+        //페이지네이션
+        pagination.setTotalCount(boardService.getTotalCount(searchFilter));
+
+        //게시글 목록
+        List<Board> boards = boardService.getBoardList(searchFilter, pagination);
+
+        return ResponseEntity.ok(new BoardListResponse(boards, pagination));
     }
 }
