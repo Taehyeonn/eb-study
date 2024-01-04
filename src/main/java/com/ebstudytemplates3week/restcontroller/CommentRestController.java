@@ -1,15 +1,13 @@
 package com.ebstudytemplates3week.restcontroller;
 
-import com.ebstudytemplates3week.Response.ListResponse;
-import com.ebstudytemplates3week.Response.ResponseService;
 import com.ebstudytemplates3week.service.CommentService;
 import com.ebstudytemplates3week.vo.Comment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -19,7 +17,6 @@ import java.util.List;
 public class CommentRestController {
 
     private final CommentService commentService;
-    private final ResponseService responseService;
 
     /**
      * 게시글 번호에 해당하는 댓글 내용 조회
@@ -27,13 +24,13 @@ public class CommentRestController {
      * @return ListResponse<Comment>
      */
     @GetMapping("/comments/{boardId}")
-    public ListResponse<Comment> getComments(
+    public ResponseEntity<List<Comment>> getComments(
             @PathVariable(name = "boardId") String boardId) {
 
         //댓글 목록 조회
         List<Comment> comments = commentService.getCommentsByBoardId(boardId);
 
-        return responseService.getListResponse(comments);
+        return ResponseEntity.ok(comments);
     }
 
     /**
@@ -43,14 +40,13 @@ public class CommentRestController {
      * @return HttpStatus.CREATED
      */
     @PostMapping("/comments/{boardId}")
-    public ResponseEntity<String> postComment(
+    public ResponseEntity<Object> postComment(
             @PathVariable(name = "boardId") String boardId,
             @RequestBody Comment comment) {
 
         // 댓글 작성
         commentService.insertComment(comment);
 
-        // 성공적으로 댓글이 등록되었다는 JSON 응답을 클라이언트에게 전송
-        return ResponseEntity.status(HttpStatus.CREATED).body("{\"boardId\": \"" + boardId + "\"}");
+        return ResponseEntity.created(URI.create("/comments/"+boardId)).build();
     }
 }

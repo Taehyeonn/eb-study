@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class BoardRestController {
     /**
      * 게시글 단일 조회
      * @param id 게시글 번호
-     * @return ResponseEntity<Board>
+     * @return board
      */
     @GetMapping("/boards/{id}")
     public ResponseEntity<Board> getBoard(
@@ -50,7 +51,7 @@ public class BoardRestController {
      * @return HttpStatus.CREATED
      */
     @PostMapping(value = "/boards", consumes = "multipart/form-data")
-    public ResponseEntity<String> writeBoard(Board board) throws IOException {
+    public ResponseEntity<Object> writeBoard(Board board) throws IOException {
 
         //비밀번호 암호화
         board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
@@ -63,7 +64,7 @@ public class BoardRestController {
             fileService.addFiles(board.getFiles(), String.valueOf(board.getId()));
         }
 
-        return new ResponseEntity<>("Created", HttpStatus.CREATED);
+        return ResponseEntity.created(URI.create("/boards/"+board.getId())).build();
     }
 
     @GetMapping("/boards")
