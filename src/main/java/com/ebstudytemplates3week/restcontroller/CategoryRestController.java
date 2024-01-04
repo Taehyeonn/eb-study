@@ -1,10 +1,7 @@
 package com.ebstudytemplates3week.restcontroller;
 
-import com.ebstudytemplates3week.Response.ListResponse;
-import com.ebstudytemplates3week.Response.ResponseService;
 import com.ebstudytemplates3week.service.CategoryService;
 import com.ebstudytemplates3week.vo.Category;
-import com.ebstudytemplates3week.vo.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

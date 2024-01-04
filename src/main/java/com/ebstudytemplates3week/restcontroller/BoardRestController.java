@@ -1,7 +1,6 @@
 package com.ebstudytemplates3week.restcontroller;
 
-import com.ebstudytemplates3week.Response.ResponseService;
-import com.ebstudytemplates3week.Response.SingleResponse;
+import com.ebstudytemplates3week.Response.BoardListResponse;
 import com.ebstudytemplates3week.Util.BCrypt;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.FileService;
@@ -9,7 +8,6 @@ import com.ebstudytemplates3week.vo.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +49,7 @@ public class BoardRestController {
      * @return HttpStatus.CREATED
      */
     @PostMapping(value = "/boards", consumes = "multipart/form-data")
-    public ResponseEntity<Object> writeBoard(Board board) throws IOException {
+    public ResponseEntity<Object> writeBoard(@Valid Board board) throws IOException {
 
         //비밀번호 암호화
         board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
@@ -69,7 +67,7 @@ public class BoardRestController {
 
     @GetMapping("/boards")
     public ResponseEntity<BoardListResponse> getBoards(@ModelAttribute("searchFilter") SearchFilter searchFilter,
-                                            @ModelAttribute("pagination") Pagination pagination) {
+                                                       @ModelAttribute("pagination") Pagination pagination) {
 
         //페이지네이션
         pagination.setTotalCount(boardService.getTotalCount(searchFilter));

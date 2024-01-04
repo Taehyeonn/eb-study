@@ -1,8 +1,9 @@
-package com.ebstudytemplates3week.vo;
+package com.ebstudytemplates3week.Response;
 
+import com.ebstudytemplates3week.vo.Board;
+import com.ebstudytemplates3week.vo.Pagination;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
