@@ -1,45 +1,36 @@
-# 3~4주차: 스프링을 이용한 게시판 만들기
-
-사용기술: java 17, thymeleaf, spring boot3.2, mysql, mybatis
+# 스프링 부트를 이용한 게시판 만들기
 
 [1주차: JSP를 이용한 MODEL-1 게시판 만들기](https://github.com/Taehyeonn/eb-study-1week)
 
+- 사용기술: java, jsp, mysql, jdbc
+
 [2주차: Servlet을 이용한 MODEL-2 게시판 만들기](https://github.com/Taehyeonn/eb-study-2week)
 
-## 3주차 코드리뷰
+- 사용기술: java 11, jsp, mysql, mybatis 3.5.14
 
-### 컨트롤러
+3~4주차: 스프링 부트를 이용한 게시판 만들기
 
-- 주석에 의도, 파라미터 설명, 반환값 설명 적기
-- 쿼리랑 파라미터를 나눠서 전달하기
-- id, pageNum을 굳이 `model.addAttribute`해야 하는지
-- 잘못된 id, pageNum 조회시 예외처리 하기
-- 컨트롤러에서 set 하지 말고 바인딩 된 채로 받기
-- 컨트롤러는 도메인 단위로 묶기
-- 어노테이션 방식 유효성검사 사용하기
-- 컨트롤러는 익셉션 던지기만 하고 글로벌 에러를 핸들러에서 처리하도록 만들기
-- 필터 컨디션
-- 명확한 함수명 사용
+- 사용기술: java 17, thymeleaf, spring boot3.2, mysql, mybatis
 
-### 도메인
+5~6주차: Restful API를 통한 Server/Frontend 분리 [(프론트 링크)](https://github.com/Taehyeonn/eb-front)
 
-- 검색 조건과 페이지네이션 분리(명확하게) or 하나로 합치기
+- 사용 기술: vue3, axios, java 17, thymeleaf, spring boot3.2, mysql, mybatis
 
-### view
+## 학습 목적
 
-- 쿼리스트링 꺼내오는 방법 공부
+- 스프링 MVC의 발전 과정을 직접 구현하여 프레임워크의 핵심 원리를 이해한다.
+- 작성한 코드를 주기적으로 리뷰하여 좋은 코드 작성에 대한 고민을 공유하고 개선점을 찾는다.
 
-## 4주차 코드리뷰
+## ERD
 
-- 레이어 간의 역할 명확히 구분하기
-- 불필요한 중복 작업 제거하기
-- 웬만하면 변수명 줄이지 말기
-- 검색조건까지 페이지네이션 물고 다니기
-- id는 쿼리 스트링이 아닌 PathVariable로 받아오기
-- 파일 기능 추가
-- 비밀번호 체크 로직 분리
+![erd](https://github.com/Taehyeonn/eb-study-3week/assets/143480682/4475fb65-0dd7-4138-aad1-411f185dd21f)
 
-## 후기
+## 게시판 사진
 
-이전까지는 어느 정도 틀이 있어서 그 틀에 맞게 구현을 했다면, 이번 스프링은 너무 자유로워서 내가 하는 방식이 맞는지 계속해서 의문이 들었다. 이런 의문점들을 코드리뷰를 통해 공유하고 조언을 받아 더 좋은 코드에 대해 고민할 수 있는 기회가 되었다.
+![list](https://github.com/Taehyeonn/eb-study-3week/assets/143480682/eb0dacbf-48c0-46b8-ae90-0fda0c29f511)
 
+![view](https://github.com/Taehyeonn/eb-study-3week/assets/143480682/d9a4f798-eff7-44b2-b057-818b8beccf16)
+
+![modify](https://github.com/Taehyeonn/eb-study-3week/assets/143480682/98222e6a-cbdd-4fc9-a68a-63145f7112d7)
+
+![delete](https://github.com/Taehyeonn/eb-study-3week/assets/143480682/02988b88-ded3-4694-a0f0-582c4280e7cb)
