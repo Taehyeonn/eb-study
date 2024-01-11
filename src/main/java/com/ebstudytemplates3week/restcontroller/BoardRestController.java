@@ -2,6 +2,7 @@ package com.ebstudytemplates3week.restcontroller;
 
 import com.ebstudytemplates3week.Response.BoardListResponse;
 import com.ebstudytemplates3week.Util.BCrypt;
+import com.ebstudytemplates3week.exception.PasswordMismatchException;
 import com.ebstudytemplates3week.service.BoardService;
 import com.ebstudytemplates3week.service.FileService;
 import com.ebstudytemplates3week.vo.*;
@@ -49,7 +50,7 @@ public class BoardRestController {
      * @return HttpStatus.CREATED
      */
     @PostMapping(value = "/boards", consumes = "multipart/form-data")
-    public ResponseEntity<Object> writeBoard(@Valid Board board) throws IOException {
+    public ResponseEntity<Object> writeBoard(@Valid Board board) throws IOException { //todo
 
         //비밀번호 암호화
         board.setPassword(BCrypt.hashpw(board.getPassword(), BCrypt.gensalt()));
@@ -65,6 +66,12 @@ public class BoardRestController {
         return ResponseEntity.created(URI.create("/boards/"+board.getId())).build();
     }
 
+    /**
+     * 게시물 리스트를 조회한다.
+     * @param searchFilter 검색조건
+     * @param pagination 페이지
+     * @return BoardListResponse(boards, pagination)
+     */
     @GetMapping("/boards")
     public ResponseEntity<BoardListResponse> getBoards(@ModelAttribute("searchFilter") SearchFilter searchFilter,
                                                        @ModelAttribute("pagination") Pagination pagination) {
@@ -75,6 +82,26 @@ public class BoardRestController {
         //게시글 목록
         List<Board> boards = boardService.getBoardList(searchFilter, pagination);
 
-        return ResponseEntity.ok(new BoardListResponse(boards, pagination));
+        return ResponseEntity.ok(new BoardListResponse(boards, pagination)); //todo
+    }
+
+    /**
+     * boardId에 해당하는 게시글을 비밀번호 검증 후 삭제한다.
+     * @param boardId 게시를 번호
+     * @param password 비밀번호
+     * @return ResponseEntity.ok()
+     */
+    @DeleteMapping("/boards/{boardId}")
+    public ResponseEntity<Object> deleteBoard(@PathVariable(name = "boardId") String boardId,
+                                              @RequestParam("password") String password) {
+
+         // 비밀번호 검증
+        if (BCrypt.checkpw(password, boardService.getPassword(boardId))) {
+            boardService.deleteBoard(boardId);
+        } else {
+            throw new PasswordMismatchException();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }
